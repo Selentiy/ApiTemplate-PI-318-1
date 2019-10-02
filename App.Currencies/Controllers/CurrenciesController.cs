@@ -24,7 +24,9 @@ namespace App.Currencies.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetCurrencyCodes()
         {
-            var serviceCallResult = _currencyManager.GetCurrencyCodes().ToList();
+            var serviceCallResult = _currencyManager.GetCurrencyCodes()?.ToList();
+            if (serviceCallResult == null || serviceCallResult.Count == 0)
+                return NotFound(serviceCallResult);
             return serviceCallResult;
         }
 

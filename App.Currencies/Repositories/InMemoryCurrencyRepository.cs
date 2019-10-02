@@ -22,7 +22,7 @@ namespace App.Currencies.Repositories
 
         public IEnumerable<string> GetCurrencyCodes()
         {
-            return _conversionRates[0].Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
+            return _conversionRates[0].Currencies?.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
 
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRates(string code, DateTime date)
