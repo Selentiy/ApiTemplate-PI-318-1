@@ -5,12 +5,12 @@ namespace App.Currencies.Models
 {
     public class ConversionRate
     {
-        public IEnumerable<Currency> Currencies { get; set; }
+        public IEnumerable<KeyValuePair<string, decimal>> Currencies { get; set; }
         public DateTime Date { get; set; }
 
         public ConversionRate(DateTime date)
         {
-            Currencies = new List<Currency>();
+            //Currencies = new Dictionary<string, decimal>();
             Date = date;
         }
     }
