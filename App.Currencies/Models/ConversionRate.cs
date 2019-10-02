@@ -10,7 +10,6 @@ namespace App.Currencies.Models
 
         public ConversionRate(DateTime date)
         {
-            //Currencies = new Dictionary<string, decimal>();
             Date = date;
         }
     }
