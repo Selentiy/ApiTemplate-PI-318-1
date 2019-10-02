@@ -14,7 +14,6 @@ namespace App.Currencies.Repositories
     public class InMemoryCurrencyRepository : ICurrencyRepository, ITransientDependency
     {
         private ConversionRate[] _conversionRates;
-        private ConversionRate _conversionRate1, _conversionRate2;
 
         public InMemoryCurrencyRepository()
         {
@@ -23,36 +22,34 @@ namespace App.Currencies.Repositories
 
         public IEnumerable<string> GetCurrencyCodes()
         {
-            return _conversionRates[0].Currencies.Select(cur => cur.Code);
+            return _conversionRates[0].Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
 
-        public decimal GetRate(string code, DateTime date)
+        public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRates(string code, DateTime date)
         {
-            ConversionRate conversionRate = _conversionRates.Where(cr => cr.Date == date).FirstOrDefault();
-            return conversionRate.Currencies.Select(cur => cur.Rate).FirstOrDefault();
+            var conversionRate = _conversionRates.Where(cr => cr.Date == date).FirstOrDefault();
+            return conversionRate.Currencies;
         }
 
         private void CreateData()
         {
-            Currency[] currencies1 = new Currency[]
-            {
-                new Currency("UAH", 27.7830473323m),
-                new Currency("RUB", 65.9764487621m),
-                new Currency("EUR", 0.8765548195m),
-                new Currency("USD", 1.0m)
-              };
-            _conversionRate1 = new ConversionRate(new DateTime(2019, 1, 25));
-            _conversionRate1.Currencies = currencies1;
+            var tempDic1 = new Dictionary<string, decimal>();
+            var tempDic2 = new Dictionary<string, decimal>();
 
-            Currency[] currencies2 = new Currency[]
-            {
-                new Currency("UAH", 24.4715083357m),
-                new Currency("RUB", 65.2378996809m),
-                new Currency("EUR", 0.9147112977m),
-                new Currency("USD", 1.0m)
-            };
-            _conversionRate2 = new ConversionRate(new DateTime(2019, 10, 1));
-            _conversionRate2.Currencies = currencies2;
+            var _conversionRate1 = new ConversionRate(new DateTime(2019, 1, 25));
+            tempDic1.Add("UAH", 27.7830473323m);
+            tempDic1.Add("RUB", 65.9764487621m);
+            tempDic1.Add("EUR", 0.8765548195m);
+            tempDic1.Add("USD", 1.0m);
+            _conversionRate1.Currencies = tempDic1;
+
+
+            var _conversionRate2 = new ConversionRate(new DateTime(2019, 10, 1));
+            tempDic2.Add("UAH", 24.4715083357m);
+            tempDic2.Add("RUB", 65.2378996809m);
+            tempDic2.Add("EUR", 0.9147112977m);
+            tempDic2.Add("USD", 1.0m);
+            _conversionRate2.Currencies = tempDic2;
 
             _conversionRates = new ConversionRate[] { _conversionRate1, _conversionRate2 };
 

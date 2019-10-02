@@ -6,6 +6,6 @@ namespace App.Repositories
     public interface ICurrencyRepository
     {
         IEnumerable<string> GetCurrencyCodes();
-        decimal GetRate(string code, DateTime date);
+        IEnumerable<KeyValuePair<string, decimal>> GetExchangeRates(string code, DateTime date);
     }
 }
