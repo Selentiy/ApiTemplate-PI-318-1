@@ -28,7 +28,7 @@ namespace App.Currencies.Repositories
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRates(string code, DateTime date)
         {
             var conversionRate = _conversionRates.Where(cr => cr.Date == date).FirstOrDefault();
-            return conversionRate.Currencies;
+            return conversionRate?.Currencies;
         }
 
         private void CreateData()

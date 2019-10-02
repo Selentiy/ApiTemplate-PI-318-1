@@ -3,7 +3,6 @@ using App.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace App.Currencies
 {
@@ -31,7 +30,12 @@ namespace App.Currencies
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
             var result = new Dictionary<string, decimal>();
-            _exchangeRates = _repository.GetExchangeRates(fromCode, date).ToDictionary(x => x.Key, x => x.Value);
+
+            _exchangeRates = _repository.GetExchangeRates(fromCode, date)
+                ?.ToDictionary(x => x.Key, x => x.Value); ;
+
+            if (_exchangeRates == null)
+                return null;
 
             foreach (var rate in _exchangeRates)
                 result.Add(rate.Key, GetConversionRate(fromCode, rate.Key));
