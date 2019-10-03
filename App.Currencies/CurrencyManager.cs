@@ -31,8 +31,8 @@ namespace App.Currencies
         {
             var result = new Dictionary<string, decimal>();
 
-            _exchangeRates = _repository.GetExchangeRates(fromCode, date)
-                ?.ToDictionary(x => x.Key, x => x.Value); ;
+            _exchangeRates = _repository.GetExchangeRates(date)
+                ?.ToDictionary(x => x.Key, x => x.Value);
 
             if (_exchangeRates == null)
                 return null;
