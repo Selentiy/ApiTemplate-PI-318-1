@@ -8,6 +8,7 @@ namespace App.Currencies
 {
     public interface ICurrencyManager
     {
+        string GetCurrencyCode(int id);
         IEnumerable<string> GetCurrencyCodes();
         IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date);
     }
@@ -19,6 +20,11 @@ namespace App.Currencies
         public CurrencyManager(ICurrencyRepository repository)
         {
             _repository = repository;
+        }
+
+        public string GetCurrencyCode(int id)
+        {
+            return _repository.GetCurrencyCode(id);
         }
 
         public IEnumerable<string> GetCurrencyCodes()
