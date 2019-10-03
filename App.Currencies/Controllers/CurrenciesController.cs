@@ -34,6 +34,8 @@ namespace App.Currencies.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<KeyValuePair<string, decimal>>> GetRate(string code, DateTime date)
         {
+            if (String.IsNullOrEmpty(code))
+                return BadRequest();
             var serviceCallResult = _currencyManager.GetExchangeRate(code.ToUpper(), date)
                 ?.ToDictionary(x => x.Key, x => x.Value);
             if (serviceCallResult == null || serviceCallResult.Count == 0)
