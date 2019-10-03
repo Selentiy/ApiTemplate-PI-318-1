@@ -10,7 +10,7 @@ namespace App.Currencies.Controllers
     [ApiController]
     public class CurrenciesController : ControllerBase
     {
-        readonly ILogger<CurrenciesController> _logger;
+        private readonly ILogger<CurrenciesController> _logger;
         private readonly ICurrencyManager _currencyManager;
 
         public CurrenciesController(
@@ -25,8 +25,6 @@ namespace App.Currencies.Controllers
         public ActionResult<IEnumerable<string>> GetCurrencyCodes()
         {
             var serviceCallResult = _currencyManager.GetCurrencyCodes()?.ToList();
-            if (serviceCallResult == null || serviceCallResult.Count == 0)
-                return NotFound(serviceCallResult);
             return serviceCallResult;
         }
 
@@ -39,7 +37,7 @@ namespace App.Currencies.Controllers
             var serviceCallResult = _currencyManager.GetExchangeRate(code.ToUpper(), date)
                 ?.ToDictionary(x => x.Key, x => x.Value);
             if (serviceCallResult == null || serviceCallResult.Count == 0)
-                return NotFound(serviceCallResult);
+                return NotFound();
             return serviceCallResult;
         }
     }
