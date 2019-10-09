@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using App.Configuration;
 using App.Repositories;
+using App.Loans.Interface;
 
 namespace App.Loans
 {
-    /// <summary>
-    /// Example manager class. Which should process business logic, and call required repository
-    /// </summary>
     public interface ILoansManager
     {
         IEnumerable<string> GetValues();
