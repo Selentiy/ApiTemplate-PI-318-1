@@ -1,4 +1,5 @@
-﻿using App.Models.News;
+﻿using App.Configuration;
+using App.Models.News;
 using App.Repositories.News;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace App.News
         IEnumerable<Comment> GetComments(int articleId);
     }
 
-    public class CommentManager : ICommentManager
+    public class CommentManager : ICommentManager, ITransientDependency
     {
         readonly ICommentsRepository _repository;
 

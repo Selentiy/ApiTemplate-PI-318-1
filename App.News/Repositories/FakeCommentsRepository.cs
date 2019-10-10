@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace App.News.Repositories
 {
-    public class FakeCommentsRepository : ICommentsRepository
+    public class FakeCommentsRepository : ICommentsRepository, ISingletoneDependency
     {
         private IEnumerable<Comment> comments;
 

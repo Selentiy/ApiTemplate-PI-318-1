@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace App.News.Repositories
 {
-    public class FakeArticlesRepository : IArticlesRepository
+    public class FakeArticlesRepository : IArticlesRepository, ISingletoneDependency
     {
         private IEnumerable<Article> articles;
 

@@ -1,4 +1,5 @@
-﻿using App.Models.News;
+﻿using App.Configuration;
+using App.Models.News;
 using App.Repositories.News;
 using System.Collections.Generic;
 
@@ -10,7 +11,7 @@ namespace App.News
         Article GetArticleById(int id);
     }
 
-    public class ArticleManager : IArticleManager
+    public class ArticleManager : IArticleManager, ITransientDependency
     {
         readonly IArticlesRepository _repository;
         public ArticleManager(IArticlesRepository repo)
