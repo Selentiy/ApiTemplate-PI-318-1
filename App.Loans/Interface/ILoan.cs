@@ -4,7 +4,9 @@ using System.Text;
 
 namespace App.Loans.Interface
 {
-    interface ILoan
+    public interface ILoan
     {
+        string AmountOfPaymentsLeft();
+
     }
 }

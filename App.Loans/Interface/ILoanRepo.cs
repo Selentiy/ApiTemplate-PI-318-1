@@ -4,7 +4,8 @@ using System.Text;
 
 namespace App.Loans.Interface
 {
-    interface ILoanRepo
+    public interface ILoanRepo
     {
+        IEnumerable<string> GetValues();
     }
 }

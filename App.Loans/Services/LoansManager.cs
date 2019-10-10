@@ -5,17 +5,11 @@ using App.Loans.Interface;
 
 namespace App.Loans
 {
-    public interface ILoansManager
-    {
-        IEnumerable<string> GetValues();
-    }
 
     public class LoansManager : ILoansManager, ITransientDependency
     {
-        // propoerty should be readonly, so it could not be changed after initialization
-        readonly IValuesRepository _repository;
-        // resolving repository through constructor dependency
-        public LoansManager(IValuesRepository repository)
+        readonly ILoanRepo _repository;
+        public LoansManager(ILoanRepo repository)
         {
             _repository = repository;
         }
