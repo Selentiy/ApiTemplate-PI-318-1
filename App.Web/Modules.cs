@@ -7,6 +7,7 @@ namespace App.Web
     /// </summary>
     [ModuleUsing(typeof(Example.ExampleModule))]
     [ModuleUsing(typeof(Loans.LoansModule))]// < ---- Example of module registration
+
     public class Modules
     {
     }
