@@ -37,7 +37,7 @@ namespace App.News.Repositories
                         ArticleID = 1,
                         Header = "First Article",
                         Author = "Author 1",
-                        BackgroundReference = "https://msdn.microsoft.com/en-us/",
+                        BackgroundImageUrl = "https://msdn.microsoft.com/en-us/",
                         Content = "Some content",
                         Date = DateTime.Now
                     },
@@ -46,7 +46,7 @@ namespace App.News.Repositories
                         ArticleID = 2,
                         Header = "Second Article",
                         Author = "Author 2",
-                        BackgroundReference = "https://msdn.microsoft.com/en-us/",
+                        BackgroundImageUrl = "https://msdn.microsoft.com/en-us/",
                         Content = "Some content",
                         Date = DateTime.Now
                     },
@@ -55,7 +55,7 @@ namespace App.News.Repositories
                         ArticleID = 3,
                         Header = "Third Article",
                         Author = "Author 1",
-                        BackgroundReference = "https://msdn.microsoft.com/en-us/",
+                        BackgroundImageUrl = "https://msdn.microsoft.com/en-us/",
                         Content = "Some content",
                         Date = DateTime.Now
                     },
@@ -64,7 +64,7 @@ namespace App.News.Repositories
                         ArticleID = 4,
                         Header = "Fourth Article",
                         Author = "Author 3",
-                        BackgroundReference = "https://msdn.microsoft.com/en-us/",
+                        BackgroundImageUrl = "https://msdn.microsoft.com/en-us/",
                         Content = "Some content",
                         Date = DateTime.Now
                     }

@@ -9,6 +9,6 @@ namespace App.Models.News
         public string Author { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public string BackgroundReference { get; set; }
+        public string BackgroundImageUrl { get; set; }
     }
 }
