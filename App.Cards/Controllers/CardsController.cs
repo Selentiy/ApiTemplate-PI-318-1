@@ -24,7 +24,7 @@ namespace App.Cards.Controllers
         }
 
         
-        [HttpGet("get/card")]
+        [HttpGet("get")]
         public ActionResult<Card> Get(long number, DateTime expiresEnd, ushort CVV)
         {
             var serviceCallResult = _cardsManager.GetCard(number, expiresEnd, CVV);
@@ -34,7 +34,7 @@ namespace App.Cards.Controllers
             return serviceCallResult;
         }
 
-        [HttpPut("block/card")]
+        [HttpPut("block")]
         public ActionResult<bool> BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV)
         {
             var serviceCallResult = _cardsManager.BlockCard(ownerName, number, expiresEnd, CVV);
@@ -60,7 +60,7 @@ namespace App.Cards.Controllers
             var serviceCallResult = _cardsManager.RemoveLimit(number, expiresEnd, CVV);
 
             if (serviceCallResult == true)
-                return Ok("Limit is set!");
+                return Ok("Limit is removed!");
             return serviceCallResult;
         }
     }
