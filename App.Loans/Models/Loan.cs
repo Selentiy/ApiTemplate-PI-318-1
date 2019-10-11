@@ -26,7 +26,7 @@ namespace App.Loans.Models
 
         public override string ToString()
         {
-            return "Loan Balance: " + LoanBalance + " ; Amount of monthly payments: " + NumberOfPayments + " by " + PercentPerAnnum + " Percent per annum";
+            return "Loan Balance: " + LoanBalanceLeft + " ; Amount of monthly payments: " + NumberOfPayments + " by " + PercentPerAnnum + " Percent per annum";
         }
     }
 }

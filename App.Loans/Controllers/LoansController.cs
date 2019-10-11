@@ -10,30 +10,25 @@ namespace App.Loans.Controllers
     [ApiController]
     public class LoansController : ControllerBase
     {
-        readonly IAnotherService _anotherService;
         readonly ILoanManger _loansManager;
         public LoansController(
-            IAnotherService anotherService,
             ILoanManger loansManager)
         {
-            _anotherService = anotherService;
             _loansManager = loansManager;
         }
 
         // GET api/loans/values
-        [HttpGet("values")]
-        public ActionResult<IEnumerable<string>> GetActiveLoans()
+        [HttpGet("values/listactiveloans")]
+        public ActionResult<IEnumerable<string>> GetListActiveLoans()
         {
-            _anotherService.DoAnything();
-            var serviceCallResult = _loansManager.GetValues().ToList();
+            var serviceCallResult = _loansManager.GetValuesInStringArray().ToList();
             return serviceCallResult;
         }
 
         // GET api/loans/{Id}
-        [HttpGet("{Id}")]
+        [HttpGet("{Id}/paymentsleft")]
         public ActionResult<IEnumerable<string>> GetAmountOfPaymentsLeft(int Id)
         {
-            _anotherService.DoAnything();
             var serviceCallResult = _loansManager.AmountOfPaymentsLeft(Id).ToList();
             return serviceCallResult;
         }

@@ -7,13 +7,13 @@ namespace App.Loans
 
     public class LoansManager : ILoanManger, ITransientDependency
     {
-        readonly ILoanRepo _repository;
-        public LoansManager(ILoanRepo repository)
+        readonly ILoanRepository _repository;
+        public LoansManager(ILoanRepository repository)
         {
             _repository = repository;
         }
 
-        public IEnumerable<string> GetValues()
+        public IEnumerable<string> GetValuesInStringArray()
         {
             return _repository.GetValues();
         }

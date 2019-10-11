@@ -4,7 +4,7 @@ using App.Loans.Interface;
 using App.Loans.Models;
 namespace App.Loans.Repositories
 {
-    public class LoanRepository : ILoanRepo, ITransientDependency
+    public class LoanRepository : ILoanRepository, ITransientDependency
     {
         private Loan[] loans = new Loan[5];
 
