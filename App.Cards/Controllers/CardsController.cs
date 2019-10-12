@@ -39,7 +39,7 @@ namespace App.Cards.Controllers
         {
             var serviceCallResult = _cardsManager.BlockCard(ownerName, number, expiresEnd, CVV);
 
-            if (serviceCallResult == true)
+            if (serviceCallResult)
                 return Ok("Card is blocked!");
             return serviceCallResult;
         }
@@ -49,7 +49,7 @@ namespace App.Cards.Controllers
         {
             var serviceCallResult = _cardsManager.SetLimit(number, expiresEnd, CVV, limit);
 
-            if (serviceCallResult == true)
+            if (serviceCallResult)
                 return Ok("Limit is set!");
             return serviceCallResult;
         }
@@ -59,7 +59,7 @@ namespace App.Cards.Controllers
         {
             var serviceCallResult = _cardsManager.RemoveLimit(number, expiresEnd, CVV);
 
-            if (serviceCallResult == true)
+            if (serviceCallResult)
                 return Ok("Limit is removed!");
             return serviceCallResult;
         }
