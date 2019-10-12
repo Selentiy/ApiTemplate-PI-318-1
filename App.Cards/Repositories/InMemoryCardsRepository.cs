@@ -7,7 +7,7 @@ using App.Repositories;
 
 namespace App.Cards.Repositories
 {
-    public class InMemoryCardsRepository: ICardsRepository, ITransientDependency
+    public class InMemoryCardsRepository : ICardsRepository, ISingletoneDependency
     {
         List<Card> cards = new List<Card>();
 
@@ -51,26 +51,40 @@ namespace App.Cards.Repositories
                 IsBlocked = true
             };
 
-            cards = new List<Card> { card1, card2, card3};
+            cards = new List<Card> { card1, card2, card3 };
+        }
+
+        private Card GetCardByNumber(long number)
+        {
+            Card result = null;
+
+            foreach (var card in cards)
+            {
+                if (card.Number == number)
+                {
+                    result = card;
+                    break;
+                }
+            }
+
+            return result;
+        }
+        private Card CheckCardByCVV(Card card, DateTime expiresEnd, ushort CVV)
+        {
+            if (card != null)
+            {
+                if (card.ExpiresEnd != expiresEnd || card.CVV != CVV)
+                    card = null;
+            }
+
+            return card;
         }
 
         public Card GetCard(long number, DateTime expiresEnd, ushort CVV)
         {
-            Card result = null;
-            foreach(var card in cards)
-            {
-                if (card.Number == number) 
-                { 
-                    result = card; 
-                    break; 
-                }
-            }
+            Card result = GetCardByNumber(number);
 
-            if (result != null)
-            {
-                if (result.ExpiresEnd != expiresEnd || result.CVV != CVV)
-                    result = null;
-            }
+            result = CheckCardByCVV(result, expiresEnd, CVV);
 
             return result;
         }
@@ -78,15 +92,7 @@ namespace App.Cards.Repositories
         public bool BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV)
         {
             bool result = false;
-            Card temp = null;
-
-            foreach (var card in cards)
-            {
-                if (card.Number == number) 
-                { temp = card; 
-                    break; 
-                }
-            }
+            Card temp = GetCardByNumber(number);
 
             if (temp != null)
             {
@@ -105,22 +111,9 @@ namespace App.Cards.Repositories
         public bool RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
         {
             bool result = false;
-            Card temp = null;
+            Card temp = GetCardByNumber(number);
 
-            foreach (var card in cards)
-            {
-                if (card.Number == number) 
-                { 
-                    temp = card; 
-                    break; 
-                }
-            }
-
-            if (temp != null)
-            {
-                if (temp.ExpiresEnd != expiresEnd || temp.CVV != CVV)
-                    temp = null;
-            }
+            temp = CheckCardByCVV(temp, expiresEnd, CVV);
 
             if (temp != null)
             { 
@@ -133,22 +126,9 @@ namespace App.Cards.Repositories
         public bool SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
         {
             bool result = false;
-            Card temp = null;
+            Card temp = GetCardByNumber(number);
 
-            foreach (var card in cards)
-            {
-                if (card.Number == number) 
-                { 
-                    temp = card; 
-                    break; 
-                }
-            }
-
-            if (temp != null)
-            {
-                if (temp.ExpiresEnd != expiresEnd || temp.CVV != CVV)
-                    temp = null;
-            }
+            temp = CheckCardByCVV(temp, expiresEnd, CVV);
 
             if (temp != null) 
             { 
