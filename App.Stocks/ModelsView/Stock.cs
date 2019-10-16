@@ -10,6 +10,9 @@ namespace App.Stocks.ModelsView
 
 		public bool IsTraded { get; set; }
 		public OHCL_Candle Candle { get; set; }
+
+		public bool CompareDate(DateTime date) => date.ToShortDateString()
+			.CompareTo(Candle.Date.ToShortDateString()) == 0;
 	}
 
 	/// <summary>
