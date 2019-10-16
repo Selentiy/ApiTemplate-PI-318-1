@@ -11,7 +11,7 @@ namespace App.Stocks.ModelsView
 		public string MainTicker { get; set; }
 
 		public string Description { get; set; }
-		public Stock[] Stocks { get; set; }
+		public List<Stock> Stocks { get; set; }
 	}
 
 	public class CompanyView
