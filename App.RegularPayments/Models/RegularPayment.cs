@@ -1,16 +1,16 @@
-﻿using System;
+﻿using App.Configuration;
+using Castle.Windsor;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using App.RegularPayments.Interfaces;
 
 namespace App.RegularPayments.Models
 {
-    class RegularPayment : IRegularPayment
+    public class RegularPayment : IModule
     {
-
-        public DateTime DateOfNextPayment()
+        public void Initialize(IWindsorContainer container)
         {
-            throw new NotImplementedException();
+        
         }
     }
 }
