@@ -3,11 +3,12 @@ using App.Models;
 using App.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace App.RegularPayments.Repositories
 {
-    class InMemoryRegularPaymentRepository : IRegularPaymentsRepository, ISingletoneDependency
+    class InMemoryRegularPaymentRepository : IPaymentsRepository, ISingletoneDependency
     {
         private IEnumerable<RegularPayment> regularpayments;
 
@@ -20,7 +21,11 @@ namespace App.RegularPayments.Repositories
         {
             return regularpayments;
         }
-        public void CreateRegularPayment() { }
+
+        public void CreateRegularPayment(RegularPayment regularPayment)
+        {
+            regularpayments.Append(regularPayment);
+        }
     }
 
     public static class RegularPaymentsInitializer
