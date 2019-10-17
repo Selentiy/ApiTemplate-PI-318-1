@@ -20,6 +20,7 @@ namespace App.RegularPayments.Repositories
         {
             return regularpayments;
         }
+        public void CreateRegularPayment() { }
     }
 
     public static class RegularPaymentsInitializer
@@ -35,7 +36,7 @@ namespace App.RegularPayments.Repositories
                     Recipient = "5555-6666-7777-8888",
                     Payment = 57.15,
                     Period = 30,
-                    MaxPayment = 10,
+                   // MaxPayment = 10,
                     DateOfLastPay = DateTime.Now
                 },
                 new RegularPayment()
@@ -45,7 +46,7 @@ namespace App.RegularPayments.Repositories
                     Recipient = "9999-6666-7777-8888",
                     Payment = 99.99,
                     Period = 15,
-                    MaxPayment = 0,
+               //     MaxPayment = 0,
                     DateOfLastPay = DateTime.Now
                 }
             };
