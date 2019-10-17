@@ -1,6 +1,7 @@
 ﻿namespace App.Repositories
 {
-    public interface IStocksRepository
-    {
-    }
+	public interface IStocksRepository
+	{
+		
+	}
 }
