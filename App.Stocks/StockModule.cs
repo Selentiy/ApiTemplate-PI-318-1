@@ -13,9 +13,7 @@ namespace App.Stocks
 	{
 		public void Initialize(IWindsorContainer container)
 		{
-			container.Register(Component.For<IValidateServices>().ImplementedBy<ValidateServices>().LifestyleTransient());
-			container.Register(Component.For<ICompanyManager>().ImplementedBy<CompaniesManager>().LifestyleTransient());
-			container.Register(Component.For<IStocksManager>().ImplementedBy<StockManager>().LifestyleTransient());
+			
 		}
 	}
 }
