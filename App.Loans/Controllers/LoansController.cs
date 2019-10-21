@@ -5,7 +5,6 @@ using App.Loans.Interface;
 
 namespace App.Loans.Controllers
 {
-
     [Route("api/loans")]
     [ApiController]
     public class LoansController : ControllerBase
