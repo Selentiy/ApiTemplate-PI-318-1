@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using App.Configuration;
 using App.Users.Models;
 
 namespace App.Users.Repository
@@ -11,9 +10,9 @@ namespace App.Users.Repository
 
     }
 
-    public class InMemoryUsersRepository : IInMemoryUsersRepository
+    public class InMemoryUsersRepository : IInMemoryUsersRepository, ITransientDependency
     {
-        User[] users = new User[5];
+        public User[] users = new User[5];
         public InMemoryUsersRepository()
         {
             users[0] = new User("docent", "1212");

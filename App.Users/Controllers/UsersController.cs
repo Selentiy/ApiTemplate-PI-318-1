@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App.Users.Controllers
 {
-    class UsersController
+    public class UsersController
     {
+
     }
 }
