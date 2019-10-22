@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using App.Users.Services;
-using App.Users.Repository;
+
 namespace App.Users.Controllers
 {
     [Route("api/Users")]
