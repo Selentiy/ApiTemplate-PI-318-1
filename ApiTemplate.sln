@@ -11,13 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Example", "App.TestModu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Cards", "App.Cards\App.Cards.csproj", "{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Stocks", "App.Stocks\App.Stocks.csproj", "{1495D801-7656-4FE4-AC22-5DC274A6F714}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.News", "App.News\App.News.csproj", "{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Currencies", "App.Currencies\App.Currencies.csproj", "{C3E190C4-3BC1-4F2E-A01B-905501534010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Users", "App.Users\App.Users.csproj", "{8A0718F2-4249-4C06-B404-A431DAF5A7E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Users", "App.Users\App.Users.csproj", "{8A0718F2-4249-4C06-B404-A431DAF5A7E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
