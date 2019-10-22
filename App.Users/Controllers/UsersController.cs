@@ -23,12 +23,12 @@ namespace App.Users.Controllers
             return serviceCallResult;
         }
 
-        [HttpPost]
+        [HttpPost("resetpass/{id}")]
         public void ResetPassword(int id, string pass)
         {
             _usersManager.ResetPassword(id, pass);
         }
-        [HttpPost]
+        [HttpPost("{id}")]
         public void BlockOrUnblockUserById(int id)
         {
             _usersManager.BlockOrUnblockUserById(id);
