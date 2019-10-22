@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\App.Accounts\App.Accounts.csproj" />
     <ProjectReference Include="..\App.Cards\App.Cards.csproj" />
     <ProjectReference Include="..\App.Common\App.Common.csproj" />
     <!-- <ProjectReference Include="..\App.Stocks\App.Stocks.csproj" /> -->
