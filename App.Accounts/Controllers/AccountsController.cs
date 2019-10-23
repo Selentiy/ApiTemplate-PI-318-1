@@ -41,9 +41,9 @@ namespace App.Accounts.Controllers
         }
 
         [HttpPut("block/{id}")]
-        public ActionResult BlockAccount(int accountId)
+        public ActionResult BlockAccount(int id)
         {
-            bool result = _accountManager.BlockAccount(accountId);
+            bool result = _accountManager.BlockAccount(id);
 
             if (!result)
                 return BadRequest();
@@ -52,9 +52,9 @@ namespace App.Accounts.Controllers
         }
 
         [HttpPut("unblock/{id}")]
-        public ActionResult UnblockAccount(int accountId)
+        public ActionResult UnblockAccount(int id)
         {
-            bool result = _accountManager.UnblockAccount(accountId);
+            bool result = _accountManager.UnblockAccount(id);
 
             if (!result)
                 return BadRequest();

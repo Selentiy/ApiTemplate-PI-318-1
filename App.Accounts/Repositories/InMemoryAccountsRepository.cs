@@ -28,6 +28,7 @@ namespace App.Accounts.Repositories
                 {
                     new Account()
                     {
+                        Id = 1,
                         AccountNumber = "0000004149123456789",
                         BankCode = "380884",
                         CheckDigits = "04",
@@ -38,6 +39,7 @@ namespace App.Accounts.Repositories
                     },
                     new Account()
                     {
+                        Id = 2,
                         AccountNumber = "0000004149123456111",
                         BankCode = "380884",
                         CheckDigits = "11",
@@ -48,6 +50,7 @@ namespace App.Accounts.Repositories
                     },
                     new Account()
                     {
+                        Id = 3,
                         AccountNumber = "0000001111111111111",
                         BankCode = "380884",
                         CheckDigits = "32",
@@ -58,6 +61,7 @@ namespace App.Accounts.Repositories
                     },
                     new Account()
                     {
+                        Id = 4,
                         AccountNumber = "",
                         BankCode = "380990",
                         CheckDigits = "23",
