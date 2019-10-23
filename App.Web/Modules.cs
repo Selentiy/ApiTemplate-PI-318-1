@@ -10,6 +10,7 @@ namespace App.Web
 	//[ModuleUsing(typeof(Stocks.StockModule))]
     [ModuleUsing(typeof(News.NewsModule))]
     [ModuleUsing(typeof(Currencies.CurrenciesModule))]
+    [ModuleUsing(typeof(Accounts.AccountsModule))]
     public class Modules
     {
     }

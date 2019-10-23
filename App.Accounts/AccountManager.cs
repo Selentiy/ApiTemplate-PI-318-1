@@ -1,4 +1,5 @@
-﻿using App.Models.Accounts;
+﻿using App.Configuration;
+using App.Models.Accounts;
 using App.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace App.Accounts
         bool UnblockAccount(int accountId);
     }
 
-    public class AccountManager : IAccountManager
+    public class AccountManager : IAccountManager, ITransientDependency
     {
         readonly IAccountsRepository _repository;
         public AccountManager(IAccountsRepository repo)

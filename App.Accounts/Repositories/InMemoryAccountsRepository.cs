@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Configuration;
 using App.Models.Accounts;
 using App.Repositories;
 
 namespace App.Accounts.Repositories
 {
-    public class InMemoryAccountsRepository : IAccountsRepository
+    public class InMemoryAccountsRepository : IAccountsRepository, ISingletoneDependency
     {
         private IEnumerable<Account> accounts;
 
