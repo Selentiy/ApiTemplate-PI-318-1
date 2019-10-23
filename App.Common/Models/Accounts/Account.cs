@@ -4,6 +4,7 @@ namespace App.Models.Accounts
 {
     public class Account
     {
+        public int Id { get; set; }
         public string CountryCode { get; set; }
         public string CheckDigits { get; set; }
         public string BankCode { get; set; }
