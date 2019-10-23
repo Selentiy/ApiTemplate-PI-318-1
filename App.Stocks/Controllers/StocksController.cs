@@ -1,11 +1,8 @@
-﻿using App.Stocks.Interfaces;
-using App.Stocks.ModelsView;
-using App.Stocks.Services;
+﻿using App.Stocks.Services;
+using App.Stocks.View;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,15 +14,12 @@ namespace App.Stocks.Controllers
 	{
 		readonly IStocksManager _stocksManager;
 		readonly ICompanyManager _companyManager;
-		readonly IValidateServices _validateService;
 
-		public StocksController(IStocksManager valuesManager,
-			ICompanyManager companyManager,
-			IValidateServices validateService)
+		public StocksController(IStocksManager stocksManager,
+			ICompanyManager companyManager)
 		{
-			_stocksManager = valuesManager;
+			_stocksManager = stocksManager;
 			_companyManager = companyManager;
-			_validateService = validateService;
 		}
 
 		[HttpGet("companies/{id}/stocks/all")]
@@ -37,7 +31,6 @@ namespace App.Stocks.Controllers
 		[HttpGet("companies/{id}/stocks")]
 		public async Task<StocksListItemView> StockByDate([FromQuery] string Date, int id)
 		{
-			_validateService.ValidateDate(Date);
 			return await _stocksManager.CompanyStockByDate(id, DateTime.Parse(Date));
 		}
 
