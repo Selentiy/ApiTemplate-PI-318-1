@@ -1,19 +1,23 @@
 ﻿using App.Configuration;
-using App.Repositories;
-using App.Stocks.Interfaces;
-using App.Stocks.ModelsView;
+using App.Models.Stocks;
+using App.Repositories.Stocks;
+using App.Stocks.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace App.Stocks.Services
 {
+	public interface IStocksManager
+	{
+		Task<IEnumerable<StocksListItemView>> CompanyStocksAsync(int companyId);
+		Task<StocksListItemView> CompanyStockByDate(int companyId, DateTime date);
+	}
+
 	public class StockManager : IStocksManager, ITransientDependency
 	{
 		readonly ICompaniesRepository _repository;
-		readonly IValidateServices _validateServices;
 
 		public StockManager(ICompaniesRepository repository)
 		{
@@ -30,7 +34,6 @@ namespace App.Stocks.Services
 
 			var stock = await Task.Run(() => company.Stocks.Where(el => el.CompareDate(date)).FirstOrDefault());
 
-			_validateServices.ValidateStocksCompany(stock, company);
 
 			var stockView = GetStockView(stock);
 			return stockView;
@@ -39,9 +42,6 @@ namespace App.Stocks.Services
 		public async Task<IEnumerable<StocksListItemView>> CompanyStocksAsync(int companyId)
 		{
 			var company = await Task.Run(() => _repository.CompanyById(companyId));
-
-			_validateServices.ValidateCompany(company, company?.Stocks?
-				.Any(s => s.IsTraded) ?? false);
 
 			List<StocksListItemView> stocksView = new List<StocksListItemView>();
 

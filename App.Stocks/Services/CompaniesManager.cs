@@ -1,14 +1,20 @@
 ﻿using App.Configuration;
-using App.Stocks.Interfaces;
-using App.Stocks.ModelsView;
-using System;
+using App.Models.Stocks;
+using App.Repositories.Stocks;
+using App.Stocks.View;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace App.Stocks.Services
 {
+	public interface ICompanyManager
+	{
+		Task<IEnumerable<CompanyView>> GetCompaniesWithActiveStocksAsync();
+		Task<IEnumerable<CompanyView>> GetAllCompaniesAsync();
+		Task<CompanyView> GetCompanyByIdAsync(int id);
+	}
+
 	public class CompaniesManager : ICompanyManager, ITransientDependency
 	{
 		private ICompaniesRepository repository;
@@ -60,7 +66,7 @@ namespace App.Stocks.Services
 		private CompanyView MappSingleCompany(Company company) =>
 			new CompanyView
 			{
-				Org_Id = company.Org_Id,
+				OrgId = company.OrgId,
 				FullName = company.FullName,
 				Description = company.Description,
 				MainTicker = company.MainTicker
