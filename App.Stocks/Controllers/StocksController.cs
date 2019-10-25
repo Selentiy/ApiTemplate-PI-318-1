@@ -3,8 +3,6 @@ using App.Stocks.View;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace App.Stocks.Controllers
 {
@@ -23,38 +21,38 @@ namespace App.Stocks.Controllers
 		}
 
 		[HttpGet("companies/{id}/stocks/all")]
-		public async Task<IEnumerable<StocksListItemView>> CompanyStocks(int id)
+		public ActionResult<IEnumerable<StocksListItemView>> CompanyStocks(int id)
 		{
-			return await _stocksManager.CompanyStocksAsync(id);
+			return Ok(_stocksManager.CompanyStocks(id));
 		}
 
 		[HttpGet("companies/{id}/stocks")]
-		public async Task<StocksListItemView> StockByDate([FromQuery] string Date, int id)
+		public ActionResult<StocksListItemView> StockByDate([FromQuery] string Date, int id)
 		{
-			return await _stocksManager.CompanyStockByDate(id, DateTime.Parse(Date));
+			return Ok(_stocksManager.CompanyStockByDate(id, DateTime.Parse(Date)));
 		}
 
 		[HttpGet("companies/{id}")]
-		public async Task<CompanyView> Company(int id)
+		public ActionResult<CompanyView> Company(int id)
 		{
-			var company = await _companyManager.GetCompanyByIdAsync(id);
+			var company = _companyManager.GetCompanyById(id);
 			if(company == null)
 			{
-				throw new HttpListenerException((int)HttpStatusCode.NotFound, "Company not found");
+				return BadRequest();
 			}
 			return company;
 		}
 
 		[HttpGet("companies/active")]
-		public async Task<IEnumerable<CompanyView>> CompaniesWithActiveStocks()
+		public ActionResult<IEnumerable<CompanyView>> CompaniesWithActiveStocks()
 		{
-			return await _companyManager.GetCompaniesWithActiveStocksAsync();
+			return Ok(_companyManager.GetCompaniesWithActiveStocks());
 		}
 
 		[HttpGet("companies/all")]
-		public async Task<IEnumerable<CompanyView>> AllCompanies()
+		public ActionResult<IEnumerable<CompanyView>> AllCompanies()
 		{
-			return await _companyManager.GetAllCompaniesAsync();
+			return Ok(_companyManager.GetAllCompanies());
 		}
 	}
 }

@@ -4,15 +4,14 @@ using App.Repositories.Stocks;
 using App.Stocks.View;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace App.Stocks.Services
 {
 	public interface ICompanyManager
 	{
-		Task<IEnumerable<CompanyView>> GetCompaniesWithActiveStocksAsync();
-		Task<IEnumerable<CompanyView>> GetAllCompaniesAsync();
-		Task<CompanyView> GetCompanyByIdAsync(int id);
+		IEnumerable<CompanyView> GetCompaniesWithActiveStocks();
+		IEnumerable<CompanyView> GetAllCompanies();
+		CompanyView GetCompanyById(int id);
 	}
 
 	public class CompaniesManager : ICompanyManager, ITransientDependency
@@ -23,10 +22,10 @@ namespace App.Stocks.Services
 			this.repository = repository;
 		}
 
-		public async Task<IEnumerable<CompanyView>> GetAllCompaniesAsync()
+		public IEnumerable<CompanyView> GetAllCompanies()
 		{
 
-			var companies = await Task.Run(() => repository.AllCompanies().ToList());
+			var companies = repository.AllCompanies().ToList();
 
 			List<CompanyView> companyViews = new List<CompanyView>();
 
@@ -37,10 +36,10 @@ namespace App.Stocks.Services
 			return companyViews;
 		}
 
-		public async Task<IEnumerable<CompanyView>> GetCompaniesWithActiveStocksAsync()
+		public IEnumerable<CompanyView> GetCompaniesWithActiveStocks()
 		{
-			var companies = await Task.Run(() => repository.AllCompanies()
-			.Where(comp => comp.Stocks.Any(s => s.IsTraded)).ToList());
+			var companies = repository.AllCompanies()
+			.Where(comp => comp.Stocks.Any(s => s.IsTraded)).ToList();
 
 			List<CompanyView> companyViews = new List<CompanyView>();
 
@@ -51,9 +50,9 @@ namespace App.Stocks.Services
 			return companyViews;
 		}
 
-		public async Task<CompanyView> GetCompanyByIdAsync(int id)
+		public CompanyView GetCompanyById(int id)
 		{
-			var company = await Task.Run(() => repository.CompanyById(id));
+			var company = repository.CompanyById(id);
 
 			if (company == null)
 			{
