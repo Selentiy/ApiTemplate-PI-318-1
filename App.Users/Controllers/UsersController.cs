@@ -19,7 +19,7 @@ namespace App.Users.Controllers
         [HttpGet("active")]
         public ActionResult<IEnumerable<string>> GetListActiveUers()
         {
-            var serviceCallResult = _usersManager.GetListActiveUsers().ToList();
+            var serviceCallResult = _usersManager.GetActiveUsers().ToList();
             return serviceCallResult;
         }
 
@@ -28,10 +28,15 @@ namespace App.Users.Controllers
         {
             _usersManager.ResetPassword(id, pass);
         }
-        [HttpPost("{id}")]
-        public void BlockOrUnblockUserById(int id)
+        [HttpPost("block/{id}")]
+        public void BlockUserById(int id)
         {
-            _usersManager.BlockOrUnblockUserById(id);
+            _usersManager.BlockUserById(id);
+        }
+        [HttpPost("unblock/{id}")]
+        public void UnblockUserById(int id)
+        {
+            _usersManager.UnblockUserById(id);
         }
     }
 }

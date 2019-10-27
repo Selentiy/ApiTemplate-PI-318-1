@@ -8,29 +8,35 @@ namespace App.Users.Services
 {
     public interface IUsersManager
     {
-        void BlockOrUnblockUserById(int id);
-        IEnumerable<string> GetListActiveUsers();
+        void BlockUserById(int id);
+        void UnblockUserById(int id);
+
+        IEnumerable<string> GetActiveUsers();
         void ResetPassword(int id,string pass);
     }
     public class UsersManager : IUsersManager, ITransientDependency
     {
-        InMemoryUsersRepository repository = new InMemoryUsersRepository();
+        readonly IInMemoryUsersRepository _repository;
 
-        public void BlockOrUnblockUserById(int id)
+        public UsersManager(IInMemoryUsersRepository repository)
         {
-            if (repository.Get(id).BlockStatus == true)
-                repository.users[id].BlockStatus = false;
-            else repository.users[id].BlockStatus = true;
+            _repository = repository;
         }
-
-        public IEnumerable<string> GetListActiveUsers()
+        public void BlockUserById(int id)
         {
-           return repository.GetStringListActiveUsers();
+                _repository.Get(id).IsBlocked = true;
         }
-
+        public void UnblockUserById(int id)
+        {
+            _repository.Get(id).IsBlocked = false;
+        }
+        public IEnumerable<string> GetActiveUsers()
+        {
+           return _repository.GetActiveUsers();
+        }
         public void ResetPassword(int id, string pass)
         {
-            repository.users[id].Password = pass;
+            _repository.Get(id).Password = pass;
         }
     }
 }

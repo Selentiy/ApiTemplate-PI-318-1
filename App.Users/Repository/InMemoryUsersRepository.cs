@@ -5,12 +5,11 @@ using App.Users.Models;
 namespace App.Users.Repository
 {   public interface IInMemoryUsersRepository
     {
-        IEnumerable<string> GetStringListActiveUsers();
+        IEnumerable<string> GetActiveUsers();
         User Get(int id);
-
     }
 
-    public class InMemoryUsersRepository : IInMemoryUsersRepository, ITransientDependency
+    public class InMemoryUsersRepository : IInMemoryUsersRepository, ISingletoneDependency
     {
         public User[] users = new User[5];
         public InMemoryUsersRepository()
@@ -18,7 +17,7 @@ namespace App.Users.Repository
             users[0] = new User("docent", "1212");
             users[1] = new User("webterror", "vikaanik");
             users[2] = new User("moki", "marmok");
-            users[3] = new User("AntonBeetroot", "full-kek");
+            users[3] = new User("AntonBeetroot", "GoodParol123");
             users[4] = new User("Vitor", "parol");
         }
         public User Get(int id)
@@ -26,7 +25,7 @@ namespace App.Users.Repository
             return users[id];
         }
 
-        public IEnumerable<string> GetStringListActiveUsers()
+        public IEnumerable<string> GetActiveUsers()
         {
             string[] str = new string[5];
             str[0] = users[0].ToString();
