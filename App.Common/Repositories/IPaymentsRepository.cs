@@ -6,7 +6,6 @@ namespace App.Repositories
 {
     public interface IPaymentsRepository
     {
-        IEnumerable<RegularPayment> GetRegularPayments();
-        void CreateRegularPayment(RegularPayment regularPayment);
+
     }
 }

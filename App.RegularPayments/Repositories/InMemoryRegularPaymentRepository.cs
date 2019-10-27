@@ -8,7 +8,7 @@ using System.Text;
 
 namespace App.RegularPayments.Repositories
 {
-    class InMemoryRegularPaymentRepository : IPaymentsRepository, ISingletoneDependency
+    public class InMemoryRegularPaymentRepository : IRegularPaymentsRepository, ISingletoneDependency
     {
         private IEnumerable<RegularPayment> regularpayments;
 
@@ -24,7 +24,12 @@ namespace App.RegularPayments.Repositories
 
         public void CreateRegularPayment(RegularPayment regularPayment)
         {
-            regularpayments.Append(regularPayment);
+            regularpayments = regularpayments.Append(regularPayment);
+        }
+
+        public RegularPayment GetRegularPaymentById(int id)
+        {
+            return regularpayments.FirstOrDefault(rp => rp.PaymentID == id);
         }
     }
 

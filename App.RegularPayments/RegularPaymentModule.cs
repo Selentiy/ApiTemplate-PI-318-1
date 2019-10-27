@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace App.RegularPayments.Models
+namespace App.RegularPayments
 {
-    public class RegularPayment : IModule
+    public class RegularPaymentModule : IModule
     {
         public void Initialize(IWindsorContainer container)
         {
