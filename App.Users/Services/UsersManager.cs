@@ -16,9 +16,9 @@ namespace App.Users.Services
     }
     public class UsersManager : IUsersManager, ITransientDependency
     {
-        readonly IInMemoryUsersRepository _repository;
+        readonly IUsersRepository _repository;
 
-        public UsersManager(IInMemoryUsersRepository repository)
+        public UsersManager(IUsersRepository repository)
         {
             _repository = repository;
         }

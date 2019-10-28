@@ -3,13 +3,13 @@ using App.Configuration;
 using App.Users.Models;
 
 namespace App.Users.Repository
-{   public interface IInMemoryUsersRepository
+{   public interface IUsersRepository
     {
         IEnumerable<string> GetActiveUsers();
         User Get(int id);
     }
 
-    public class InMemoryUsersRepository : IInMemoryUsersRepository, ISingletoneDependency
+    public class InMemoryUsersRepository : IUsersRepository, ISingletoneDependency
     {
         public User[] users = new User[5];
         public InMemoryUsersRepository()
