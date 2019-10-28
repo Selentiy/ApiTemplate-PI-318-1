@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using App.Example.Dto;
+using App.Example.Filters;
+using App.Example.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,34 +15,53 @@ namespace App.Example.Controllers
     /// </summary>
     [Route("api/example/values")]
     [ApiController]
+    // TypeFilter attribute allows user to reference filters, which have additional constructor dependencies, which will be resolved with DI system
+    [TypeFilter(typeof(ExampleExceptionFilter), Arguments = new object[] { nameof(ValuesController) })]
     public class ValuesController : ControllerBase
     {
         // depedencies will be automatically resolved with used DI system
-        readonly ISomeService _service;
-        readonly IAnotherService _anotherService;
         readonly ILogger<ValuesController> _logger;
         readonly IValuesManager _valuesManager;
         public ValuesController(
-            ISomeService service,
-            IAnotherService anotherService,
             ILogger<ValuesController> logger,
             IValuesManager valuesManager)
         {
-            _service = service;
-            _anotherService = anotherService;
             _logger = logger;
             _valuesManager = valuesManager;
         }
 
         // GET api/example/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<SimpleValueDto> Get()
         {
-            _service.DoSmth();
-            _anotherService.DoAnything();
-            _logger.LogInformation("NOTHING");
+            _logger.LogDebug("call Get method");
             var serviceCallResult = _valuesManager.GetValues().ToList();
-            return serviceCallResult;
+            return serviceCallResult.Select(x => new SimpleValueDto(x)).ToList();
+        }
+
+        // GET api/example/values/{key}
+        [HttpGet("{key}")]
+        public SimpleValueDto GetByKey(string key)
+        {
+            _logger.LogDebug("call GetByKey method");
+            var value = _valuesManager.GetValueByKey(key);
+            return new SimpleValueDto(value);
+        }
+
+        // POST api/example/values/operation
+        [HttpPost("operation")]
+        public void PerformOperation()
+        {
+            _logger.LogDebug("call PerformOperation method");
+            _valuesManager.PerformBusinessOperation();
+        }
+
+        // POST api/example/values/exception
+        [HttpPost("exception")]
+        public void CauseException()
+        {
+            _logger.LogDebug("call CauseException method");
+            throw new Exception("Some hidden information");
         }
     }
 }
