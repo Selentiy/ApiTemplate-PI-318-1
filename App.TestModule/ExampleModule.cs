@@ -1,4 +1,5 @@
 ﻿using App.Configuration;
+using App.Example.Services;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
