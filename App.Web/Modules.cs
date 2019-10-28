@@ -11,6 +11,7 @@ namespace App.Web
     [ModuleUsing(typeof(News.NewsModule))]
     [ModuleUsing(typeof(Currencies.CurrenciesModule))]
     [ModuleUsing(typeof(Users.UsersModule))]
+    [ModuleUsing(typeof(Accounts.AccountsModule))]
     public class Modules
     {
     }

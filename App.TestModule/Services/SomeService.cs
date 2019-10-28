@@ -1,6 +1,6 @@
 ﻿using App.Configuration;
 
-namespace App.Example
+namespace App.Example.Services
 {
     public interface ISomeService
     {

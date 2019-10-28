@@ -1,4 +1,4 @@
-﻿namespace App.Example
+﻿namespace App.Example.Services
 {
     public interface IAnotherService
     {
