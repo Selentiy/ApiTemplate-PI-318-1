@@ -37,7 +37,7 @@ namespace App.RegularPayments.Controllers
             return regpay;
 
         }
-
+        [HttpPost]
         public ActionResult CreateRegularPayment([FromBody] RegularPayment regularPayment)
         {
             bool result = _paymentsManager.AddRegularPaymant(regularPayment);
