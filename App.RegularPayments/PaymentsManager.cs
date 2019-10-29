@@ -8,21 +8,15 @@ using System.Text;
 
 namespace App.RegularPayments
 {
-    public interface ICreateManager
-    {
-        bool AddRegularPaymant(RegularPayment regularPayment);
-    }
     public interface IPaymentsManager
     {
+        bool AddRegularPaymant(RegularPayment regularPayment);
         IEnumerable<RegularPayment> GetRegularPayments();
         RegularPayment GetRegularPaymentsById(int id);
-    }
-    public interface IShowNextServise
-    {
-        DateTime ShowNextData(int id);
+        DateTime ShowNextPaymentData(int id);
     }
 
-    public class PaymentsManager : IPaymentsManager, ICreateManager, IShowNextServise, ITransientDependency
+    public class PaymentsManager : IPaymentsManager, ITransientDependency
     {
         readonly IRegularPaymentsRepository _repository;
         public PaymentsManager(IRegularPaymentsRepository repo)
@@ -44,7 +38,6 @@ namespace App.RegularPayments
             return true;
         }
  
-
         public IEnumerable<RegularPayment> GetRegularPayments()
         {
             return _repository.GetRegularPayments();
@@ -55,7 +48,7 @@ namespace App.RegularPayments
             return _repository.GetRegularPaymentById(id);
         }
 
-        public DateTime ShowNextData(int id)
+        public DateTime ShowNextPaymentData(int id)
         {
             return GetRegularPaymentsById(id).DateOfLastPay.AddDays(GetRegularPaymentsById(id).Period);
         }

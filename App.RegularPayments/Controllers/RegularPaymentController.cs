@@ -12,28 +12,24 @@ namespace App.RegularPayments.Controllers
     public class RegularPaymentController : ControllerBase
     {
         readonly IPaymentsManager _paymentsManager;
-        readonly ICreateManager _createManager;
-        readonly IShowNextServise _showNextServise;
-        public RegularPaymentController(IPaymentsManager paymentsManager, ICreateManager createManager, IShowNextServise showNextServise)
+        public RegularPaymentController(IPaymentsManager paymentsManager)
         {
             _paymentsManager = paymentsManager;
-            _createManager = createManager;
-            _showNextServise = showNextServise;
         }
-        [HttpGet("(all)")]    
-        public ActionResult<IEnumerable<RegularPayment>> GetAllRegPayments()
+        [HttpGet("all")]    
+        public ActionResult<IEnumerable<RegularPayment>> GetAllRegularPayments()
         {
-            var paymentsManagers = _paymentsManager.GetRegularPayments();
+            var regpayments = _paymentsManager.GetRegularPayments();
 
-            if( paymentsManagers.Count() == 0)
+            if(regpayments.Count() == 0)
             {
                 return NoContent();
             }
-            return Ok(paymentsManagers);
+            return Ok(regpayments);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<RegularPayment> GetRegPay(int id)
+        public ActionResult<RegularPayment> GetRegularPayment(int id)
         {
             var regpay = _paymentsManager.GetRegularPaymentsById(id);
             if (regpay == null)
@@ -42,10 +38,9 @@ namespace App.RegularPayments.Controllers
 
         }
 
-        [HttpPost("(add)")]
-        public ActionResult CreateRegPayments([FromBody] RegularPayment regularPayment)
+        public ActionResult CreateRegularPayment([FromBody] RegularPayment regularPayment)
         {
-            bool result = _createManager.AddRegularPaymant(regularPayment);
+            bool result = _paymentsManager.AddRegularPaymant(regularPayment);
             if (!result)
                 return BadRequest();
 
@@ -53,9 +48,9 @@ namespace App.RegularPayments.Controllers
         }
 
         [HttpGet("data")]
-        public ActionResult<DateTime> GetDay(int id)
+        public ActionResult<DateTime> ShowNextPaymentDateByPaymentId(int id)
         {
-            var data = _showNextServise.ShowNextData(id);
+            var data = _paymentsManager.ShowNextPaymentData(id);
 
             if (data == null)
                 return NoContent();

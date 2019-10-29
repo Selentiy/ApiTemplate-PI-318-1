@@ -11,7 +11,6 @@ namespace App.Models
         public string Recipient { get; set; }
         public double Payment { get; set; }
         public int Period { get; set; }
-     //   public int MaxPayment { get; set; }
         public DateTime DateOfLastPay { get; set; }
     }
 }
