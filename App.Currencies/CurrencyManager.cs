@@ -22,25 +22,46 @@ namespace App.Currencies
             _repository = repository;
         }
 
+        //public string GetCurrencyCode(int id)
+        //{
+        //    return _repository.GetCurrencyCode(id);
+        //}
+
         public string GetCurrencyCode(int id)
         {
-            return _repository.GetCurrencyCode(id);
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetCurrencyCodes()
         {
-            return _repository.GetCurrencyCodes();
+            var conversionRates = _repository.GetConversionRates()?.ToList();
+            var latestConversionRate = conversionRates[conversionRates.Count - 1];
+            return latestConversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
+
+        //public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
+        //{
+        //    var result = new Dictionary<string, decimal>();
+
+        //    var exchangeRates = _repository.GetExchangeRates(date)
+        //        ?.ToDictionary(x => x.Key, x => x.Value);
+
+        //    if (exchangeRates == null)
+        //        return null;
+
+        //    foreach (var rate in exchangeRates)
+        //        result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));
+
+        //    result.Remove(fromCode);
+        //    return result;
+        //}
 
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
             var result = new Dictionary<string, decimal>();
 
-            var exchangeRates = _repository.GetExchangeRates(date)
-                ?.ToDictionary(x => x.Key, x => x.Value);
-
-            if (exchangeRates == null)
-                return null;
+            var conversionRate = _repository.GetConversionRate(date);
+            var exchangeRates = conversionRate.Currencies?.ToDictionary(x => x.Key, x => x.Value);
 
             foreach (var rate in exchangeRates)
                 result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));

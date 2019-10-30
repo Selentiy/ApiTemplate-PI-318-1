@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace App.Currencies.Models
+namespace App.Models.Currencies
 {
     public class ConversionRate
     {

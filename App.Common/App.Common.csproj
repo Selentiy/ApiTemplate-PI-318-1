@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Новая папка\**" />
+    <EmbeddedResource Remove="Новая папка\**" />
+    <None Remove="Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
   </ItemGroup>

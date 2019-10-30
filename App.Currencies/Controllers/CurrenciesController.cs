@@ -21,16 +21,6 @@ namespace App.Currencies.Controllers
             _currencyManager = currencyManager;
         }
 
-        [Route("{id}")]
-        [HttpGet]
-        public ActionResult<string> GetCurrencyCode(int id)
-        {
-            var serviceCallResult = _currencyManager.GetCurrencyCode(id);
-            if (serviceCallResult == null)
-                return NotFound();
-            return serviceCallResult;
-        }
-
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetCurrencyCodes()
         {
