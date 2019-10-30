@@ -1,14 +1,15 @@
 ﻿using App.Configuration;
+using App.Currencies.Exceptions;
 using App.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace App.Currencies
 {
     public interface ICurrencyManager
     {
-        string GetCurrencyCode(int id);
         IEnumerable<string> GetCurrencyCodes();
         IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date);
     }
@@ -22,16 +23,6 @@ namespace App.Currencies
             _repository = repository;
         }
 
-        //public string GetCurrencyCode(int id)
-        //{
-        //    return _repository.GetCurrencyCode(id);
-        //}
-
-        public string GetCurrencyCode(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<string> GetCurrencyCodes()
         {
             var conversionRates = _repository.GetConversionRates()?.ToList();
@@ -39,25 +30,14 @@ namespace App.Currencies
             return latestConversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
 
-        //public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
-        //{
-        //    var result = new Dictionary<string, decimal>();
-
-        //    var exchangeRates = _repository.GetExchangeRates(date)
-        //        ?.ToDictionary(x => x.Key, x => x.Value);
-
-        //    if (exchangeRates == null)
-        //        return null;
-
-        //    foreach (var rate in exchangeRates)
-        //        result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));
-
-        //    result.Remove(fromCode);
-        //    return result;
-        //}
-
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
+            string pattern = "(?i)^[A-Z]{3}$";
+            if (!Regex.IsMatch(fromCode, pattern))
+                throw new CurrencyCodeFormatException("Currency code must consist of three letters", fromCode);
+            if (date > DateTime.Today)
+                throw new FutureDateException("The date has not come yet.", date);
+
             var result = new Dictionary<string, decimal>();
 
             var conversionRate = _repository.GetConversionRate(date);

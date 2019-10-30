@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using App.Configuration;
 using App.Currencies.Dto;
+using App.Currencies.Exceptions;
 using App.Models.Currencies;
 using App.Repositories;
 
@@ -27,6 +28,8 @@ namespace App.Currencies.Repositories
 
         public ConversionRate GetConversionRate(DateTime date)
         {
+            if (date > DateTime.Today)
+                throw new FutureDateException("The date has not come yet.", date);
             return _conversionRates.FirstOrDefault(cr => cr.Date == date);
         }
 
