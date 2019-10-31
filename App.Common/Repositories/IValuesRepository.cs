@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using App.Models.Example;
 
 namespace App.Repositories
 {
@@ -7,6 +8,8 @@ namespace App.Repositories
     /// </summary>
     public interface IValuesRepository
     {
-        IEnumerable<string> GetValues();
+        IEnumerable<SimpleValue> GetValues();
+
+        SimpleValue GetValueByKey(string key);
     }
 }
