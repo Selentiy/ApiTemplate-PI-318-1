@@ -10,19 +10,15 @@ namespace App.Currencies.Exceptions
 
         public FutureDateException() { }
 
-        public FutureDateException(DateTime date)
+        public FutureDateException(DateTime date) : base($"The date {date.ToString("yyyy-MM-dd")} has not come yet.")
         {
             Date = date;
         }
-
-        public FutureDateException(string message) : base(message) { }
 
         public FutureDateException(string message, DateTime date) : base(message)
         {
             Date = date;
         }
 
-        public FutureDateException(string message, Exception innerException) 
-            : base(message, innerException) { }
     }
 }

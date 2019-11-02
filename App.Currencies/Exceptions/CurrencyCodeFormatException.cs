@@ -10,13 +10,10 @@ namespace App.Currencies.Exceptions
 
         public CurrencyCodeFormatException() { }
 
-        public CurrencyCodeFormatException(string currencyCode)
+        public CurrencyCodeFormatException(string currencyCode) : base($"Currency code must consist of three letters.")
         {
             CurrencyCode = currencyCode;
         }
-
-        public CurrencyCodeFormatException(string message, Exception innerException)
-            : base(message, innerException) { }
 
         public CurrencyCodeFormatException(string message, string currencyCode) : base(message)
         {
