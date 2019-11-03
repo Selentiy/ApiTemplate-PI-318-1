@@ -6,7 +6,6 @@ namespace App.Repositories
 {
     public interface ICurrencyRepository
     {
-        IEnumerable<ConversionRate> GetConversionRates();
         ConversionRate GetConversionRate(DateTime date);
     }
 }

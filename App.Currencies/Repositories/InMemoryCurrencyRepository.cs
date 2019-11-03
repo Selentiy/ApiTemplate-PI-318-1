@@ -20,11 +20,6 @@ namespace App.Currencies.Repositories
             CreateData();
         }
 
-        public IEnumerable<ConversionRate> GetConversionRates()
-        {
-            return _conversionRates;
-        }
-
         public ConversionRate GetConversionRate(DateTime date)
         {
             if (date > DateTime.Today)
