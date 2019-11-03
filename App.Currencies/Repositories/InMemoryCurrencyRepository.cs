@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Configuration;
-using App.Currencies.Dto;
 using App.Currencies.Exceptions;
 using App.Models.Currencies;
 using App.Repositories;
@@ -29,7 +28,7 @@ namespace App.Currencies.Repositories
         public ConversionRate GetConversionRate(DateTime date)
         {
             if (date > DateTime.Today)
-                throw new FutureDateException("The date has not come yet.", date);
+                throw new FutureDateException(date);
             return _conversionRates.FirstOrDefault(cr => cr.Date == date);
         }
 
@@ -45,7 +44,7 @@ namespace App.Currencies.Repositories
             tempDic1.Add("USD", 1.0m);
             _conversionRate1.Currencies = tempDic1;
 
-            var _conversionRate2 = new ConversionRate(new DateTime(2019, 10, 1));
+            var _conversionRate2 = new ConversionRate(DateTime.Today);
             tempDic2.Add("UAH", 24.4715083357m);
             tempDic2.Add("RUB", 65.2378996809m);
             tempDic2.Add("EUR", 0.9147112977m);

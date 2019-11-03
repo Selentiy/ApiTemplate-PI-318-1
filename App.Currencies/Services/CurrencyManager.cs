@@ -1,12 +1,13 @@
 ﻿using App.Configuration;
 using App.Currencies.Exceptions;
+using App.Models.Currencies;
 using App.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace App.Currencies
+namespace App.Currencies.Services
 {
     public interface ICurrencyManager
     {
@@ -32,16 +33,20 @@ namespace App.Currencies
 
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
-            string pattern = "(?i)^[A-Z]{3}$";
-            if (!Regex.IsMatch(fromCode, pattern))
-                throw new CurrencyCodeFormatException("Currency code must consist of three letters", fromCode);
+            if (fromCode == null)
+                throw new ArgumentException(nameof(fromCode));
+            if (!Regex.IsMatch(fromCode, "(?i)^[A-Z]{3}$"))
+                throw new CurrencyCodeFormatException(fromCode);
             if (date > DateTime.Today)
-                throw new FutureDateException("The date has not come yet.", date);
+                throw new FutureDateException(date);
 
             var result = new Dictionary<string, decimal>();
 
             var conversionRate = _repository.GetConversionRate(date);
-            var exchangeRates = conversionRate.Currencies?.ToDictionary(x => x.Key, x => x.Value);
+            if (conversionRate == null)
+                throw new EntityNotFoundException(typeof(ConversionRate));
+
+            var exchangeRates = conversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value);
 
             foreach (var rate in exchangeRates)
                 result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));
