@@ -35,7 +35,7 @@ namespace App.Currencies.Controllers
         [HttpGet("{code}/{date}")]
         public ActionResult<IEnumerable<KeyValuePair<string, decimal>>> GetRate(string code, DateTime date)
         {
-            _logger.LogDebug("call GetRate method");
+            _logger.LogDebug("call GetRate method with code {code} and date {date}", code, date.ToString("yyyy-MM-dd"));
             if (String.IsNullOrEmpty(code))
                 return BadRequest();
             var serviceCallResult = _currencyManager.GetExchangeRate(code.ToUpper(), date)
