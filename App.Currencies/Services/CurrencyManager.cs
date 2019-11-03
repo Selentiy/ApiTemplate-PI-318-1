@@ -2,6 +2,7 @@
 using App.Currencies.Exceptions;
 using App.Models.Currencies;
 using App.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,21 +18,25 @@ namespace App.Currencies.Services
 
     public class CurrencyManager : ICurrencyManager, ITransientDependency
     {
-        private readonly ICurrencyRepository _repository; 
+        private readonly ICurrencyRepository _repository;
+        private readonly ILogger<CurrencyManager> _logger;
 
-        public CurrencyManager(ICurrencyRepository repository)
+        public CurrencyManager(ICurrencyRepository repository, ILogger<CurrencyManager> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public IEnumerable<string> GetCurrencyCodes()
         {
+            _logger.LogDebug("call GetCurrencyCodes method.");
             var latestConversionRate = _repository.GetConversionRate(DateTime.Today);
             return latestConversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
 
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
+            _logger.LogDebug("call GetExchangeRate method with code {code} and date {date}", fromCode, date.ToString("yyyy-MM-dd"));
             if (fromCode == null)
                 throw new ArgumentNullException(nameof(fromCode));
             if (!Regex.IsMatch(fromCode, "(?i)^[A-Z]{3}$"))
