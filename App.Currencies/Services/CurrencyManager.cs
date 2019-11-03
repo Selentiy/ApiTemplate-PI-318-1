@@ -51,6 +51,8 @@ namespace App.Currencies.Services
                 throw new EntityNotFoundException(typeof(ConversionRate));
 
             var exchangeRates = conversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value);
+            if (!exchangeRates.Keys.Contains(fromCode))
+                throw new EntityNotFoundException(typeof(ConversionRate));
 
             foreach (var rate in exchangeRates)
                 result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));
