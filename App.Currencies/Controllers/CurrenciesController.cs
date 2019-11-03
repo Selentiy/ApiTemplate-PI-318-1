@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Currencies.Filters;
+using App.Currencies.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace App.Currencies.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/currencies")]
     [ApiController]
+    [TypeFilter(typeof(CurrenciesExceptionFilter), Arguments = new object[] { nameof(CurrenciesController)})]
     public class CurrenciesController : ControllerBase
     {
         private readonly ILogger<CurrenciesController> _logger;
@@ -24,20 +27,19 @@ namespace App.Currencies.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetCurrencyCodes()
         {
-            var serviceCallResult = _currencyManager.GetCurrencyCodes()?.ToList();
+            _logger.LogDebug("call GetCurrencyCodes method");
+            var serviceCallResult = _currencyManager.GetCurrencyCodes().ToList();
             return serviceCallResult;
         }
 
-        [Route("{code}/{date}")]
-        [HttpGet]
+        [HttpGet("{code}/{date}")]
         public ActionResult<IEnumerable<KeyValuePair<string, decimal>>> GetRate(string code, DateTime date)
         {
+            _logger.LogDebug("call GetRate method");
             if (String.IsNullOrEmpty(code))
                 return BadRequest();
             var serviceCallResult = _currencyManager.GetExchangeRate(code.ToUpper(), date)
-                ?.ToDictionary(x => x.Key, x => x.Value);
-            if (serviceCallResult == null || serviceCallResult.Count == 0)
-                return NotFound();
+                .ToDictionary(x => x.Key, x => x.Value);
             return serviceCallResult;
         }
     }

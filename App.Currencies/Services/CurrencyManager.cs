@@ -26,15 +26,14 @@ namespace App.Currencies.Services
 
         public IEnumerable<string> GetCurrencyCodes()
         {
-            var conversionRates = _repository.GetConversionRates()?.ToList();
-            var latestConversionRate = conversionRates[conversionRates.Count - 1];
+            var latestConversionRate = _repository.GetConversionRate(DateTime.Today);
             return latestConversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value).Keys;
         }
 
         public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRate(string fromCode, DateTime date)
         {
             if (fromCode == null)
-                throw new ArgumentException(nameof(fromCode));
+                throw new ArgumentNullException(nameof(fromCode));
             if (!Regex.IsMatch(fromCode, "(?i)^[A-Z]{3}$"))
                 throw new CurrencyCodeFormatException(fromCode);
             if (date > DateTime.Today)
@@ -57,7 +56,7 @@ namespace App.Currencies.Services
 
         private decimal GetConversionRate(Dictionary<string, decimal> exchangeRates, string from, string to)
         {
-            decimal rate = exchangeRates[from] / exchangeRates[to];
+            decimal rate = exchangeRates[from.ToUpper()] / exchangeRates[to.ToUpper()];
             return rate;
         }
     }
