@@ -7,7 +7,7 @@ namespace App.Stocks.View
 	public class StocksListView
 	{
 		public IEnumerable<StocksListItemView> Stocks { get; set; }
-		public string Company_Name { get; set; }
+		public string CompanyName { get; set; }
 	}
 
 	public class StocksListItemView
