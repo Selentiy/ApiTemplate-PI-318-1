@@ -23,13 +23,20 @@ namespace App.Stocks.Controllers
 		[HttpGet("companies/{id}/stocks/all")]
 		public ActionResult<IEnumerable<StocksListItemView>> CompanyStocks(int id)
 		{
-			return Ok(_stocksManager.CompanyStocks(id));
+			var result = _stocksManager.CompanyStocks(id);
+			List<StocksListItemView> stocks = new List<StocksListItemView>();
+			foreach(var stock in result)
+			{
+				stocks.Add(stock.GetStockView());
+			}
+			return Ok(stocks);
 		}
 
 		[HttpGet("companies/{id}/stocks")]
 		public ActionResult<StocksListItemView> StockByDate([FromQuery] string Date, int id)
 		{
-			return Ok(_stocksManager.CompanyStockByDate(id, DateTime.Parse(Date)));
+			return Ok(_stocksManager.CompanyStockByDate(id, DateTime.Parse(Date))
+				.GetStockView());
 		}
 
 		[HttpGet("companies/{id}")]
@@ -40,19 +47,32 @@ namespace App.Stocks.Controllers
 			{
 				return NotFound();
 			}
-			return company;
+			return company.MappSingleCompany();
 		}
 
 		[HttpGet("companies/active")]
 		public ActionResult<IEnumerable<CompanyView>> CompaniesWithActiveStocks()
 		{
-			return Ok(_companyManager.GetCompaniesWithActiveStocks());
+			var result = _companyManager.GetCompaniesWithActiveStocks();
+			List<CompanyView> companies = new List<CompanyView>();
+			foreach (var company in result)
+			{
+				companies.Add(company.MappSingleCompany());
+			}
+			return Ok(companies);
 		}
 
 		[HttpGet("companies/all")]
 		public ActionResult<IEnumerable<CompanyView>> AllCompanies()
 		{
-			return Ok(_companyManager.GetAllCompanies());
+			var result = _companyManager.GetAllCompanies();
+			List<CompanyView> companies = new List<CompanyView>();
+			foreach (var company in result)
+			{
+				companies.Add(company.MappSingleCompany());
+			}
+			return Ok(companies);
 		}
+
 	}
 }

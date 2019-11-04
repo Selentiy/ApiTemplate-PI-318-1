@@ -9,9 +9,9 @@ namespace App.Stocks.Services
 {
 	public interface ICompanyManager
 	{
-		IEnumerable<CompanyView> GetCompaniesWithActiveStocks();
-		IEnumerable<CompanyView> GetAllCompanies();
-		CompanyView GetCompanyById(int id);
+		IEnumerable<Company> GetCompaniesWithActiveStocks();
+		IEnumerable<Company> GetAllCompanies();
+		Company GetCompanyById(int id);
 	}
 
 	public class CompaniesManager : ICompanyManager, ITransientDependency
@@ -22,35 +22,26 @@ namespace App.Stocks.Services
 			this.repository = repository;
 		}
 
-		public IEnumerable<CompanyView> GetAllCompanies()
+		public IEnumerable<Company> GetAllCompanies()
 		{
-
-			var companies = repository.AllCompanies().ToList();
-
-			List<CompanyView> companyViews = new List<CompanyView>();
-
-			foreach (var c in companies)
-			{
-				companyViews.Add(MappSingleCompany(c));
-			}
-			return companyViews;
+			return repository.AllCompanies().ToList();
 		}
 
-		public IEnumerable<CompanyView> GetCompaniesWithActiveStocks()
+		public IEnumerable<Company> GetCompaniesWithActiveStocks()
 		{
 			var companies = repository.AllCompanies()
 			.Where(comp => comp.Stocks.Any(s => s.IsTraded)).ToList();
 
-			List<CompanyView> companyViews = new List<CompanyView>();
+			List<Company> company = new List<Company>();
 
 			foreach (var c in companies)
 			{
-				companyViews.Add(MappSingleCompany(c));
+				company.Add(c);
 			}
-			return companyViews;
+			return company;
 		}
 
-		public CompanyView GetCompanyById(int id)
+		public Company GetCompanyById(int id)
 		{
 			var company = repository.CompanyById(id);
 
@@ -59,17 +50,7 @@ namespace App.Stocks.Services
 				return null;
 			}
 
-			return MappSingleCompany(company);
+			return company;
 		}
-
-		private CompanyView MappSingleCompany(Company company) =>
-			new CompanyView
-			{
-				OrgId = company.OrgId,
-				FullName = company.FullName,
-				Description = company.Description,
-				MainTicker = company.MainTicker
-			};
-
 	}
 }

@@ -10,8 +10,8 @@ namespace App.Stocks.Services
 {
 	public interface IStocksManager
 	{
-		IEnumerable<StocksListItemView> CompanyStocks(int companyId);
-		StocksListItemView CompanyStockByDate(int companyId, DateTime date);
+		IEnumerable<Stock> CompanyStocks(int companyId);
+		Stock CompanyStockByDate(int companyId, DateTime date);
 	}
 
 	public class StockManager : IStocksManager, ITransientDependency
@@ -23,7 +23,7 @@ namespace App.Stocks.Services
 			_repository = repository;
 		}
 
-		public StocksListItemView CompanyStockByDate(int companyId, DateTime date)
+		public Stock CompanyStockByDate(int companyId, DateTime date)
 		{
 			var company = _repository.CompanyById(companyId);
 			if (company == null)
@@ -32,36 +32,21 @@ namespace App.Stocks.Services
 			}
 
 			var stock = company.Stocks.Where(el => el.CompareDate(date)).FirstOrDefault();
-
-
-			var stockView = GetStockView(stock);
-			return stockView;
+			return stock;
 		}
 
-		public IEnumerable<StocksListItemView> CompanyStocks(int companyId)
+		public IEnumerable<Stock> CompanyStocks(int companyId)
 		{
 			var company = _repository.CompanyById(companyId);
 
-			List<StocksListItemView> stocksView = new List<StocksListItemView>();
+			List<Stock> stocks = new List<Stock>();
 
 			foreach (var s in company.Stocks)
 			{
-				stocksView.Add(GetStockView(s));
+				stocks.Add(s);
 			}
 
-			return stocksView;
-		}
-
-		public StocksListItemView GetStockView(Stock stock)
-			=> new StocksListItemView
-			{
-				Ticker = stock.Ticker,
-				Open = stock.Candle.Open,
-				High = stock.Candle.High,
-				Close = stock.Candle.Close,
-				Low = stock.Candle.Low,
-				Date = stock.Candle.Date,
-				IsTraded = stock.IsTraded
-			}; 
+			return stocks;
+		} 
 	}
 }
