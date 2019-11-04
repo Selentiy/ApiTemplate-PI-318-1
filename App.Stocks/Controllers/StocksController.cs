@@ -38,7 +38,7 @@ namespace App.Stocks.Controllers
 			var company = _companyManager.GetCompanyById(id);
 			if(company == null)
 			{
-				return BadRequest();
+				return NotFound();
 			}
 			return company;
 		}
