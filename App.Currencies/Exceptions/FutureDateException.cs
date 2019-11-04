@@ -8,8 +8,6 @@ namespace App.Currencies.Exceptions
     {
         public DateTime Date { get; private set; }
 
-        public FutureDateException() { }
-
         public FutureDateException(DateTime date) : base($"The date {date.ToString("yyyy-MM-dd")} has not come yet.")
         {
             Date = date;
