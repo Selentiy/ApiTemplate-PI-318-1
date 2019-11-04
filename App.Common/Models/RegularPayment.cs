@@ -9,7 +9,7 @@ namespace App.Models
         public int PaymentID { get; set; }
         public string Payer { get; set; }
         public string Recipient { get; set; }
-        public double Payment { get; set; }
+        public double Amount { get; set; }
         public int Period { get; set; }
         public DateTime DateOfLastPay { get; set; }
     }

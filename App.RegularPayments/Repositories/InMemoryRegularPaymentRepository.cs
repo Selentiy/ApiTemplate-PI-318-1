@@ -23,9 +23,11 @@ namespace App.RegularPayments.Repositories
         }
         public bool CreateRegularPayment(RegularPayment regularPayment)
         {
-            int check = regularpayments.Count();
+            var sameID = GetRegularPayments().FirstOrDefault(rp => rp.PaymentID == regularPayment.PaymentID);
+            if (sameID != null)
+                return false;
             regularpayments = regularpayments.Append(regularPayment);
-            return (regularpayments.Count()) == (check + 1);
+            return true ;
         }
 
         public RegularPayment GetRegularPaymentById(int id)
@@ -45,7 +47,7 @@ namespace App.RegularPayments.Repositories
                     PaymentID = 0,
                     Payer = "1111-2222-3333-4444",
                     Recipient = "5555-6666-7777-8888",
-                    Payment = 57.15,
+                    Amount = 57.15,
                     Period = 30,
                     DateOfLastPay = DateTime.Now
                 },
@@ -54,7 +56,7 @@ namespace App.RegularPayments.Repositories
                     PaymentID = 1,
                     Payer = "7777-8888-3333-4444",
                     Recipient = "9999-6666-7777-8888",
-                    Payment = 99.99,
+                    Amount = 99.99,
                     Period = 15,
                     DateOfLastPay = DateTime.Now
                 }

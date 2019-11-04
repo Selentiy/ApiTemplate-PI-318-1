@@ -50,7 +50,8 @@ namespace App.RegularPayments
 
         public DateTime ShowNextPaymentData(int id)
         {
-            return GetRegularPaymentsById(id).DateOfLastPay.AddDays(GetRegularPaymentsById(id).Period);
+            RegularPayment regularPayment = GetRegularPaymentsById(id);
+            return regularPayment.DateOfLastPay.AddDays(regularPayment.Period);
         }
     }
 }
