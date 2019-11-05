@@ -18,7 +18,7 @@ namespace App.News.Repositories
 
         public void CreateComment(Comment comment)
         {
-            comments.Append(comment);
+            comments = comments.Append(comment);
         }
 
         public Comment GetCommentById(int articleId, int commentId)
