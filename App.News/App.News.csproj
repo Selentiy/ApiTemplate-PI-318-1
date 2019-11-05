@@ -12,4 +12,8 @@
     <ProjectReference Include="..\App.Common\App.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>

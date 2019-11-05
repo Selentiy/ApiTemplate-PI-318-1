@@ -61,12 +61,9 @@ namespace App.News.Controllers
         [HttpPost("{id}/comments")]
         public ActionResult AddComment([FromBody]Comment comment)
         {
-            var addResult = _commentManager.AddComment(comment);
+            _commentManager.AddComment(comment);
 
-            if (addResult)
-                return Ok();
-
-            return BadRequest();
+            return Ok();
         }
     }
 }

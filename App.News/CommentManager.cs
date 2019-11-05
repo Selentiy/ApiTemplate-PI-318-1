@@ -8,7 +8,7 @@ namespace App.News
 {
     public interface ICommentManager
     {
-        bool AddComment(Comment comment);
+        void AddComment(Comment comment);
         IEnumerable<Comment> GetComments(int articleId);
     }
 
@@ -21,19 +21,12 @@ namespace App.News
             _repository = repo;
         }
 
-        public bool AddComment(Comment comment)
+        public void AddComment(Comment comment)
         {
-            if (comment == null)
-                return false;
-
             var sameComment = _repository.GetComments().Where(cm => cm.ArticleID == comment.ArticleID)
                                                        .FirstOrDefault(cm => cm.CommentID == comment.CommentID);
 
-            if (sameComment != null)
-                return false;
-
             _repository.CreateComment(comment);
-            return true;
         }
 
         public IEnumerable<Comment> GetComments(int articleId)
