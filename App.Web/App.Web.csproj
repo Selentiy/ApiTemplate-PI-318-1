@@ -38,6 +38,7 @@
     <ProjectReference Include="..\App.RegularPayments\App.RegularPayments.csproj" />
     <ProjectReference Include="..\App.News\App.News.csproj" />
     <ProjectReference Include="..\App.Currencies\App.Currencies.csproj" />
+    <ProjectReference Include="..\App.Stocks\App.Stocks.csproj" />
     <ProjectReference Include="..\App.TestModule\App.Example.csproj" />
   </ItemGroup>
 

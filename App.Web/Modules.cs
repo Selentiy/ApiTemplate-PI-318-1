@@ -8,6 +8,7 @@ namespace App.Web
     [ModuleUsing(typeof(Example.ExampleModule))] // < ---- Example of module registration
     [ModuleUsing(typeof(RegularPayments.RegularPaymentModule))]
     [ModuleUsing(typeof(Cards.CardsModule))]
+	[ModuleUsing(typeof(Stocks.StockModule))]
     [ModuleUsing(typeof(News.NewsModule))]
     [ModuleUsing(typeof(Currencies.CurrenciesModule))]
     [ModuleUsing(typeof(Accounts.AccountsModule))]
