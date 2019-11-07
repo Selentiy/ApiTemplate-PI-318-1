@@ -40,7 +40,7 @@ namespace App.Stocks.Controllers
 			{
 				stocks.Add(stock.GetStockView());
 			}
-			return Ok(stocks);
+			return stocks;
 		}
 
 		[HttpGet("companies/{id}/stocks")]
@@ -51,8 +51,8 @@ namespace App.Stocks.Controllers
 			{
 				throw new IncorrectDateException();
 			}
-			return Ok(_stocksManager.CompanyStockByDate(id, date)
-			.GetStockView());
+			return _stocksManager.CompanyStockByDate(id, date)
+			.GetStockView();
 		}
 
 		[HttpGet("companies/{id}")]
@@ -77,7 +77,7 @@ namespace App.Stocks.Controllers
 			{
 				companies.Add(company.MappSingleCompany());
 			}
-			return Ok(companies);
+			return companies;
 		}
 
 		[HttpGet("companies/all")]
@@ -90,7 +90,7 @@ namespace App.Stocks.Controllers
 			{
 				companies.Add(company.MappSingleCompany());
 			}
-			return Ok(companies);
+			return companies;
 		}
 
 	}
