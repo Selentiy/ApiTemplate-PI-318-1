@@ -49,7 +49,7 @@ namespace App.Stocks.Controllers
 			_logger.LogInformation($"Call StockByDate with id : {id} , date: {Date}");
 			if (!DateTime.TryParse(Date, out var date))
 			{
-				throw new IncorrectParamException("Date", "yyyy-MM-dd");
+				throw new IncorrectDateException();
 			}
 			return Ok(_stocksManager.CompanyStockByDate(id, date)
 			.GetStockView());

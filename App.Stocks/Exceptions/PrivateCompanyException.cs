@@ -5,8 +5,9 @@ namespace App.Stocks.Exceptions
 	public class PrivateCompanyException : Exception
 	{
 		public int CompanyId { get; private set; }
-		public new string Message => $"The company with id {CompanyId} is private!";
-		public PrivateCompanyException(int id)
+		
+		public PrivateCompanyException(int id) :
+			base($"The company with id {id} is private!")
 		{
 			CompanyId = id;
 		}

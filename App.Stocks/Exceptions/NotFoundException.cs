@@ -6,9 +6,9 @@ namespace App.Stocks.Exceptions
 	{
 		public int NotFoundId { get; private set; }
 		public Type NotFoundType { get; private set; }
-		public new string Message => $"The object with {NotFoundType} type and {NotFoundId} id is not found!";
 
-		public NotFoundException(Type type, int id)
+		public NotFoundException(Type type, int id) :
+			base($"The object with {type} type and {id} id is not found!")
 		{
 			NotFoundId = id;
 			NotFoundType = type;

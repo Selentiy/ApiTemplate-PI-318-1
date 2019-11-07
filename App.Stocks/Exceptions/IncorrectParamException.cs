@@ -6,9 +6,9 @@ namespace App.Stocks.Exceptions
 	{
 		public string ParamName { get; private set; }
 		public string ParamFormat { get; private set; }
-		public new string Message => $"The {ParamName} parameters might have this format {ParamFormat}!";
 
-		public IncorrectParamException(string name, string format)
+		public IncorrectParamException(string name, string format) : 
+			base($"The {name} parameters might have this format {format}!")
 		{
 			ParamName = name;
 			ParamFormat = format;
