@@ -6,6 +6,8 @@ namespace App.Loans.Interface
     public interface ILoanRepository
     {
         IEnumerable<string> GetValues();
+        IEnumerable<Loan> GetLoans();
+
         Loan Get(int Index);
     }
 }

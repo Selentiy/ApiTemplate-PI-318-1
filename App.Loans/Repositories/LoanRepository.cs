@@ -6,7 +6,7 @@ namespace App.Loans.Repositories
 {
     public class LoanRepository : ILoanRepository, ITransientDependency
     {
-        private Loan[] loans = new Loan[5];
+        public Loan[] loans = new Loan[5];
 
         public LoanRepository()
         {
@@ -15,7 +15,10 @@ namespace App.Loans.Repositories
                 loans[i] = new Loan(i * 1000 + 3000, i * 2 + 12, i + 0.5);
             }
         }
-
+        public IEnumerable<Loan> GetLoans()
+        {
+            return loans;
+        }
         public IEnumerable<string> GetValues()
         {
             int j = 0;

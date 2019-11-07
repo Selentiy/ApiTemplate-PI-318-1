@@ -4,7 +4,7 @@ namespace App.Loans.Models
 {
     public class Loan : ILoan
     {
-        private double LoanBalance;
+        private readonly double LoanBalance;
         public double MoneyReturned { get; set; }
         public double LoanBalanceLeft { get { return LoanBalance; } }
         public double PercentPerAnnum{ get; set; }
@@ -19,9 +19,9 @@ namespace App.Loans.Models
             LoanBalance = MoneyTaken - MoneyReturned + (MoneyTaken * NumberOfPayments * PercentPerAnnum / 12) ;
         }
 
-        public string AmountOfPaymentsLeft()
+        public int AmountOfPaymentsLeft()
         {
-            return "Amount of monthly payments left: " + (NumberOfPayments - (MoneyReturned / (MoneyTaken / NumberOfPayments))) + " Money should: " + LoanBalanceLeft;
+            return (int)(NumberOfPayments - (MoneyReturned / (MoneyTaken / NumberOfPayments)));
         }
 
         public override string ToString()

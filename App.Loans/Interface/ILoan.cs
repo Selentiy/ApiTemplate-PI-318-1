@@ -2,6 +2,6 @@
 {
     public interface ILoan
     {
-        string AmountOfPaymentsLeft();
+        int AmountOfPaymentsLeft();
     }
 }
