@@ -1,14 +1,19 @@
 ﻿using App.Configuration;
-using App.Stocks.Interfaces;
-using App.Stocks.ModelsView;
-using System;
+using App.Models.Stocks;
+using App.Repositories.Stocks;
+using App.Stocks.View;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.Stocks.Services
 {
+	public interface ICompanyManager
+	{
+		IEnumerable<Company> GetCompaniesWithActiveStocks();
+		IEnumerable<Company> GetAllCompanies();
+		Company GetCompanyById(int id);
+	}
+
 	public class CompaniesManager : ICompanyManager, ITransientDependency
 	{
 		private ICompaniesRepository repository;
@@ -17,54 +22,35 @@ namespace App.Stocks.Services
 			this.repository = repository;
 		}
 
-		public async Task<IEnumerable<CompanyView>> GetAllCompaniesAsync()
+		public IEnumerable<Company> GetAllCompanies()
 		{
+			return repository.AllCompanies().ToList();
+		}
 
-			var companies = await Task.Run(() => repository.AllCompanies().ToList());
+		public IEnumerable<Company> GetCompaniesWithActiveStocks()
+		{
+			var companies = repository.AllCompanies()
+			.Where(comp => comp.Stocks.Any(s => s.IsTraded)).ToList();
 
-			List<CompanyView> companyViews = new List<CompanyView>();
+			List<Company> company = new List<Company>();
 
 			foreach (var c in companies)
 			{
-				companyViews.Add(MappSingleCompany(c));
+				company.Add(c);
 			}
-			return companyViews;
+			return company;
 		}
 
-		public async Task<IEnumerable<CompanyView>> GetCompaniesWithActiveStocksAsync()
+		public Company GetCompanyById(int id)
 		{
-			var companies = await Task.Run(() => repository.AllCompanies()
-			.Where(comp => comp.Stocks.Any(s => s.IsTraded)).ToList());
-
-			List<CompanyView> companyViews = new List<CompanyView>();
-
-			foreach (var c in companies)
-			{
-				companyViews.Add(MappSingleCompany(c));
-			}
-			return companyViews;
-		}
-
-		public async Task<CompanyView> GetCompanyByIdAsync(int id)
-		{
-			var company = await Task.Run(() => repository.CompanyById(id));
+			var company = repository.CompanyById(id);
 
 			if (company == null)
 			{
 				return null;
 			}
 
-			return MappSingleCompany(company);
+			return company;
 		}
-
-		private CompanyView MappSingleCompany(Company company) =>
-			new CompanyView
-			{
-				Org_Id = company.Org_Id,
-				FullName = company.FullName,
-				Description = company.Description,
-				MainTicker = company.MainTicker
-			};
-
 	}
 }

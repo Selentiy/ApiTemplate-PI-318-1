@@ -1,10 +1,7 @@
-﻿using App.Stocks.ModelsView;
-using System;
-using System.Collections.Generic;
+﻿using App.Models.Stocks;
 using System.Linq;
-using System.Text;
 
-namespace App.Stocks.Interfaces
+namespace App.Repositories.Stocks
 {
 	public interface ICompaniesRepository
 	{
