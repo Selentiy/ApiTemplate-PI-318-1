@@ -33,7 +33,7 @@ namespace App.Stocks.Services
 			var company = _repository.CompanyById(companyId);
 			if (company == null)
 			{
-				return null;
+				throw new NotFoundException(typeof(Company), companyId);
 			}
 
 			var stock = company.Stocks.Where(el => el.CompareDate(date)).FirstOrDefault();
@@ -48,7 +48,7 @@ namespace App.Stocks.Services
 			List<Stock> stocks = new List<Stock>();
 			if (company.Stocks == null)
 			{
-				return null;
+				throw new PrivateCompanyException(companyId);
 			}
 
 			foreach (var s in company.Stocks)
