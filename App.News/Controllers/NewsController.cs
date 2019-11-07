@@ -1,5 +1,7 @@
 ﻿using App.Models.News;
+using App.News.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +9,7 @@ namespace App.News.Controllers
 {
     [Route("api/news/")]
     [ApiController]
+    [TypeFilter(typeof(NewsExceptionFilter), Arguments = new object[] { nameof(NewsController) })]
     public class NewsController : ControllerBase
     {
         readonly IArticleManager _articleManager;
@@ -24,10 +27,7 @@ namespace App.News.Controllers
         public ActionResult<IEnumerable<Article>> GetAllNews()
         {
             var articles = _articleManager.GetArticles();
-
-            if (articles.Count() == 0)
-                return NoContent();
-
+            
             return Ok(articles);
         }
 
@@ -36,10 +36,7 @@ namespace App.News.Controllers
         {
             var article = _articleManager.GetArticleById(id);
 
-            if (article == null)
-                return NotFound();
-
-            return article;
+            return Ok(article);
         }
 
         [HttpGet("{id}/comments")]
@@ -59,8 +56,14 @@ namespace App.News.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public ActionResult AddComment([FromBody]Comment comment)
+        public ActionResult AddComment(int id, [FromBody]Comment comment)
         {
+            if (comment == null)
+            {
+                throw new ArgumentNullException(nameof(comment));
+            }
+
+            _articleManager.GetArticleById(id);
             _commentManager.AddComment(comment);
 
             return Ok();

@@ -1,7 +1,9 @@
 ﻿using App.Configuration;
 using App.Models.News;
+using App.News.Exceptions;
 using App.Repositories.News;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.News
 {
@@ -21,12 +23,22 @@ namespace App.News
 
         public Article GetArticleById(int id)
         {
-            return _repository.GetArticleById(id);
+            var article = _repository.GetArticleById(id);
+
+            if (article == null)
+                throw new EntityNotFoundException(typeof(Article), id);
+
+            return article;
         }
 
         public IEnumerable<Article> GetArticles()
         {
-            return _repository.GetArticles();
+            var articles =_repository.GetArticles();
+
+            if (articles.Count() == 0)
+                throw new NoArticlesContentException();
+
+            return articles;
         }
     }
 }

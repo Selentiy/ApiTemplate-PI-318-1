@@ -1,5 +1,6 @@
 ﻿using App.Configuration;
 using App.Models.News;
+using App.News.Exceptions;
 using App.Repositories.News;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,28 @@ namespace App.News
     public class CommentManager : ICommentManager, ITransientDependency
     {
         readonly ICommentsRepository _repository;
+        readonly ICommentValidatorService _validator;
 
-        public CommentManager(ICommentsRepository repo)
+        public CommentManager(ICommentsRepository repo, ICommentValidatorService validatorService)
         {
             _repository = repo;
+            _validator = validatorService;
         }
 
         public void AddComment(Comment comment)
         {
-            var sameComment = _repository.GetComments().Where(cm => cm.ArticleID == comment.ArticleID)
-                                                       .FirstOrDefault(cm => cm.CommentID == comment.CommentID);
-
+            _validator.ValidateComment(comment);
             _repository.CreateComment(comment);
         }
 
         public IEnumerable<Comment> GetComments(int articleId)
         {
-            return _repository.GetComments().Where(cm => cm.ArticleID == articleId);
+            var comments = _repository.GetComments().Where(cm => cm.ArticleID == articleId);
+
+            if (comments.Count() == 0)
+                throw new NoCommentsContentException(articleId);
+
+            return comments;
         }
     }
 }
