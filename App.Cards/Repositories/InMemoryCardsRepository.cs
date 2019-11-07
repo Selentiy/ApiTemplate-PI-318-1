@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using App.Cards.Exceptions;
 using App.Configuration;
-using App.Models.Cards.Models;
+using App.Models.Cards;
 using App.Repositories;
 
 namespace App.Cards.Repositories
@@ -86,56 +86,49 @@ namespace App.Cards.Repositories
 
             result = CheckCardByCVV(result, expiresEnd, CVV);
 
-            return result;
-        }
-
-        public bool BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV)
-        {
-            bool result = false;
-            Card temp = GetCardByNumber(number);
-
-            if (temp != null)
+            if (result == null)
             {
-                if (temp.ExpiresEnd != expiresEnd || temp.CVV != CVV || temp.OwnerName != ownerName) 
-                    temp = null;
+                throw new EntityNotFoundException(number, typeof(Card));
             }
 
-            if (temp != null) 
-            { 
-                temp.IsBlocked = true; 
-                result = true; 
-            } 
             return result;
         }
-
-        public bool RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
+        private void CheckCardByExeption(long number, DateTime expiresEnd, ushort CVV)
         {
-            bool result = false;
-            Card temp = GetCardByNumber(number);
+            Card temp = GetCard(number, expiresEnd, CVV);
 
-            temp = CheckCardByCVV(temp, expiresEnd, CVV);
-
-            if (temp != null)
-            { 
-                temp.Limit = null; 
-                result = true; 
+            if (temp.IsBlocked)
+            {
+                throw new BlockedCardException(number, "Card is blocked");
             }
-            return result;
+            else if (expiresEnd < DateTime.Now)
+            {
+                throw new PastDateException(number, expiresEnd);
+            }
         }
 
-        public bool SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
+        public void BlockCard(long number, DateTime expiresEnd, ushort CVV)
         {
-            bool result = false;
-            Card temp = GetCardByNumber(number);
+            Card temp = GetCard(number, expiresEnd, CVV);
+            CheckCardByExeption(number, expiresEnd, CVV);
 
-            temp = CheckCardByCVV(temp, expiresEnd, CVV);
+            temp.IsBlocked = true;
+        }
 
-            if (temp != null) 
-            { 
-                temp.Limit = limit; 
-                result = true; 
-            }
-            return result;
+        public void RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
+        {
+            Card temp = GetCard(number, expiresEnd, CVV);
+            CheckCardByExeption(number, expiresEnd, CVV);
+
+            temp.Limit = null;
+        }
+
+        public void SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
+        {
+            Card temp = GetCard(number, expiresEnd, CVV);
+            CheckCardByExeption(number, expiresEnd, CVV);
+
+            temp.Limit = limit;
         }
     }
 }

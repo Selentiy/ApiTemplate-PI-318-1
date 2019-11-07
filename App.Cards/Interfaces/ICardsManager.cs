@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using App.Models.Cards.Models;
+using App.Models.Cards;
 
 namespace App.Cards.Interfaces
 {
     public interface ICardsManager
     {
         Card GetCard(long number, DateTime expiresEnd, ushort CVV);
-        bool SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit);
-        bool RemoveLimit(long number, DateTime expiresEnd, ushort CVV);
-        bool BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV);
+        void SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit);
+        void RemoveLimit(long number, DateTime expiresEnd, ushort CVV);
+        void BlockCard(long number, DateTime expiresEnd, ushort CVV);
     }
 }

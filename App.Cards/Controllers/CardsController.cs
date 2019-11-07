@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using App.Cards.Interfaces;
-using App.Models.Cards.Models;
+using App.Models.Cards;
+using App.Cards.Filters;
 
 namespace App.Cards.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [TypeFilter(typeof(CardsExceptionFilter), Arguments = new object[] { nameof(CardsController) })]
     public class CardsController : ControllerBase
     {
         private readonly ILogger<CardsController> _logger;
@@ -23,7 +23,7 @@ namespace App.Cards.Controllers
             _cardsManager = cardsManager;
         }
 
-        
+
         [HttpGet("get")]
         public ActionResult<Card> Get(long number, DateTime expiresEnd, ushort CVV)
         {
@@ -35,33 +35,28 @@ namespace App.Cards.Controllers
         }
 
         [HttpPut("block")]
-        public ActionResult<bool> BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV)
+        public ActionResult<bool> BlockCard(long number, DateTime expiresEnd, ushort CVV)
         {
-            var serviceCallResult = _cardsManager.BlockCard(ownerName, number, expiresEnd, CVV);
+            _cardsManager.BlockCard(number, expiresEnd, CVV);
 
-            if (serviceCallResult)
-                return Ok("Card is blocked!");
-            return serviceCallResult;
+            return Ok("Card is blocked!");
         }
 
         [HttpPut("set/limit")]
         public ActionResult<bool> SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
         {
-            var serviceCallResult = _cardsManager.SetLimit(number, expiresEnd, CVV, limit);
+            _cardsManager.SetLimit(number, expiresEnd, CVV, limit);
 
-            if (serviceCallResult)
-                return Ok("Limit is set!");
-            return serviceCallResult;
+            return Ok("Limit is set!");
+
         }
 
         [HttpPut("remove/limit")]
         public ActionResult<bool> RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
         {
-            var serviceCallResult = _cardsManager.RemoveLimit(number, expiresEnd, CVV);
+            _cardsManager.RemoveLimit(number, expiresEnd, CVV);
 
-            if (serviceCallResult)
-                return Ok("Limit is removed!");
-            return serviceCallResult;
+            return Ok("Limit is removed!");
         }
     }
 }

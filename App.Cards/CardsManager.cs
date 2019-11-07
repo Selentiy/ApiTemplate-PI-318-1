@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using App.Cards.Interfaces;
 using App.Configuration;
-using App.Models.Cards.Models;
+using App.Models.Cards;
 using App.Repositories;
 
 namespace App.Cards
@@ -17,9 +15,9 @@ namespace App.Cards
             _repository = repository;
         }
 
-        public bool BlockCard(string OwnerName, long Number, DateTime ExpiresEnd, ushort CVV)
+        public void BlockCard(long number, DateTime expiresEnd, ushort CVV)
         {
-            return _repository.BlockCard(OwnerName, Number, ExpiresEnd, CVV);
+            _repository.BlockCard(number, expiresEnd, CVV);
         }
 
         public Card GetCard(long Number, DateTime ExpiresEnd, ushort CVV)
@@ -27,14 +25,14 @@ namespace App.Cards
             return _repository.GetCard(Number, ExpiresEnd, CVV);
         }
 
-        public bool RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
+        public void RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
         {
-            return _repository.RemoveLimit(number, expiresEnd, CVV);
+            _repository.RemoveLimit(number, expiresEnd, CVV);
         }
 
-        public bool SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
+        public void SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
         {
-            return _repository.SetLimit( number, expiresEnd, CVV, limit);
+            _repository.SetLimit(number, expiresEnd, CVV, limit);
         }
     }
 }

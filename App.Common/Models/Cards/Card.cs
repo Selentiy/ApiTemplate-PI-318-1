@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace App.Models.Cards.Models
+namespace App.Models.Cards
 {
     public class Card
     {
