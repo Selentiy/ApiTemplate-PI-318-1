@@ -27,16 +27,14 @@ namespace App.Cards.Controllers
         [HttpGet("get")]
         public ActionResult<Card> Get(long number, DateTime expiresEnd, ushort CVV)
         {
-            var serviceCallResult = _cardsManager.GetCard(number, expiresEnd, CVV);
-
-            if (serviceCallResult == null)
-                return NotFound();
-            return serviceCallResult;
+            _logger.LogInformation("Call Get method");
+            return _cardsManager.GetCard(number, expiresEnd, CVV);
         }
 
         [HttpPut("block")]
         public ActionResult<bool> BlockCard(long number, DateTime expiresEnd, ushort CVV)
         {
+            _logger.LogInformation("Call BlockCard method from");
             _cardsManager.BlockCard(number, expiresEnd, CVV);
 
             return Ok("Card is blocked!");
@@ -45,6 +43,7 @@ namespace App.Cards.Controllers
         [HttpPut("set/limit")]
         public ActionResult<bool> SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit)
         {
+            _logger.LogInformation("Call SetLimit method");
             _cardsManager.SetLimit(number, expiresEnd, CVV, limit);
 
             return Ok("Limit is set!");
@@ -54,6 +53,7 @@ namespace App.Cards.Controllers
         [HttpPut("remove/limit")]
         public ActionResult<bool> RemoveLimit(long number, DateTime expiresEnd, ushort CVV)
         {
+            _logger.LogInformation("Call RemoveLimit method");
             _cardsManager.RemoveLimit(number, expiresEnd, CVV);
 
             return Ok("Limit is removed!");

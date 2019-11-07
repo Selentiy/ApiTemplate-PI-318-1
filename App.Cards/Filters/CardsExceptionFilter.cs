@@ -25,29 +25,34 @@ namespace App.Cards.Filters
                 case EntityNotFoundException entityNotFound:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        _logger.LogWarning(entityNotFound, entityNotFound.Message + $" Method: {entityNotFound.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.EntityType.Name}");
                         break;
                     }
                 case BlockedCardException blockedCard:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        _logger.LogWarning(blockedCard, blockedCard.Message + $" Method: {blockedCard.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync($"This card by number: {blockedCard.Number} is blocked");
                         break;
                     }
                 case InvalidBusinessOperationException invalidBusinessOperation:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        _logger.LogWarning(invalidBusinessOperation.Message + $" Method: {invalidBusinessOperation.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync("Invalid business operation");
                         break;
                     }
                 case PastDateException pastDate:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        _logger.LogWarning(pastDate.Message + $" Method: {pastDate.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync("Card expiration date is over");
                         break;
                     }
                 default:
                     {
+                        _logger.LogError(context.Exception.Message + $"Method: {context.Exception.TargetSite}.");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         await context.HttpContext.Response.WriteAsync("Unhandled exception ! Please, contact support for resolve");
                         break;
