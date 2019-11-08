@@ -1,9 +1,9 @@
 ﻿using App.Models.News;
 using App.News.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace App.News.Controllers
 {
@@ -14,50 +14,52 @@ namespace App.News.Controllers
     {
         readonly IArticleManager _articleManager;
         readonly ICommentManager _commentManager;
+        readonly ILogger<NewsController> _logger;
 
         public NewsController(
             IArticleManager articleManager,
-            ICommentManager commentManager)
+            ICommentManager commentManager,
+            ILogger<NewsController> logger)
         {
             _articleManager = articleManager;
             _commentManager = commentManager;
+            _logger = logger;
         }
 
         [HttpGet("all")]
         public ActionResult<IEnumerable<Article>> GetAllNews()
         {
+            _logger.LogInformation("Call GetAllNews method");
+
             var articles = _articleManager.GetArticles();
-            
             return Ok(articles);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Article> GetNews(int id)
         {
-            var article = _articleManager.GetArticleById(id);
+            _logger.LogInformation("Call GetNews method with id {id}", id);
 
+            var article = _articleManager.GetArticleById(id);
             return Ok(article);
         }
 
         [HttpGet("{id}/comments")]
         public ActionResult<IEnumerable<Comment>> GetComments(int id)
         {
-            var article = _articleManager.GetArticleById(id);
+            _logger.LogInformation("Call GetComments method with id {id}", id);
 
-            if (article == null)
-                return NotFound();
+            _articleManager.GetArticleById(id);
 
             var comments = _commentManager.GetComments(id);
-
-            if (comments.Count() == 0)
-                return NoContent();
-
             return Ok(comments);
         }
 
         [HttpPost("{id}/comments")]
         public ActionResult AddComment(int id, [FromBody]Comment comment)
         {
+            _logger.LogInformation("Call AddComment method with id {id}", id);
+
             if (comment == null)
             {
                 throw new ArgumentNullException(nameof(comment));
