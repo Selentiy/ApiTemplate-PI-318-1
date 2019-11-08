@@ -1,4 +1,5 @@
-﻿using App.Configuration;
+﻿using App.Accounts.Exceptions;
+using App.Configuration;
 using App.Models.Accounts;
 using App.Repositories;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Accounts
     {
         Account GetAccount(string countryCode, string checkDigits, string bankCode, string accountNumber);
         IEnumerable<Account> GetAccounts();
-        bool BlockAccount(int accountId);
-        bool UnblockAccount(int accountId);
+        void BlockAccount(int accountId);
+        void UnblockAccount(int accountId);
     }
 
     public class AccountManager : IAccountManager, ITransientDependency
@@ -39,28 +40,32 @@ namespace App.Accounts
             return accounts;
         }
 
-        public bool BlockAccount(int accountId)
+        public void BlockAccount(int accountId)
         {
             var account = _repository.GetAccounts()
                           .FirstOrDefault(a => a.Id.Equals(accountId));
 
-            if (account == null || account.IsBlocked)
-                return false;
+            if (account == null)
+                throw new ArticleNotFoundException(accountId);
+
+            if (account.IsBlocked)
+                throw new InvalidBlockOperationException(typeof(Account), accountId);
 
             account.IsBlocked = true;
-            return true;
         }
 
-        public bool UnblockAccount(int accountId)
+        public void UnblockAccount(int accountId)
         {
             var account = _repository.GetAccounts()
                           .FirstOrDefault(a => a.Id == accountId);
 
-            if (account == null || !account.IsBlocked)
-                return false;
+            if (account == null)
+                throw new ArticleNotFoundException(accountId);
+
+            if (!account.IsBlocked)
+                throw new InvalidUnblockOperationException(typeof(Account), accountId);
 
             account.IsBlocked = false;
-            return true;
         }
     }
 }

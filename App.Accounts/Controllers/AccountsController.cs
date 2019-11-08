@@ -1,9 +1,7 @@
-﻿using App.Models.Accounts;
+﻿using App.Accounts.Exceptions;
+using App.Models.Accounts;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace App.Accounts.Controllers
 {
@@ -23,9 +21,6 @@ namespace App.Accounts.Controllers
         {
             var accounts = _accountManager.GetAccounts();
 
-            if (accounts.Count() == 0)
-                return NoContent();
-
             return Ok(accounts);
         }
 
@@ -35,7 +30,7 @@ namespace App.Accounts.Controllers
             var account = _accountManager.GetAccount(countryCode, checkDigits, bankCode, accountNumber);
 
             if (account == null)
-                return NotFound();
+                throw new ArticleNotFoundException(countryCode, checkDigits, bankCode, accountNumber);
 
             return Ok(account);
         }
@@ -43,10 +38,7 @@ namespace App.Accounts.Controllers
         [HttpPut("block/{id}")]
         public ActionResult BlockAccount(int id)
         {
-            bool result = _accountManager.BlockAccount(id);
-
-            if (!result)
-                return BadRequest();
+            _accountManager.BlockAccount(id);
 
             return Ok();
         }
@@ -54,10 +46,7 @@ namespace App.Accounts.Controllers
         [HttpPut("unblock/{id}")]
         public ActionResult UnblockAccount(int id)
         {
-            bool result = _accountManager.UnblockAccount(id);
-
-            if (!result)
-                return BadRequest();
+            _accountManager.UnblockAccount(id);
 
             return Ok();
         }
