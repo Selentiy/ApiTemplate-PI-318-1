@@ -1,4 +1,5 @@
 ﻿using App.Models.News;
+using App.News.Exceptions;
 using App.News.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,10 @@ namespace App.News.Controllers
             _logger.LogInformation("Call GetNews method with id {id}", id);
 
             var article = _articleManager.GetArticleById(id);
+
+            if (article == null)
+                throw new EntityNotFoundException(typeof(Article), id);
+
             return Ok(article);
         }
 
@@ -49,7 +54,10 @@ namespace App.News.Controllers
         {
             _logger.LogInformation("Call GetComments method with id {id}", id);
 
-            _articleManager.GetArticleById(id);
+            var article = _articleManager.GetArticleById(id);
+
+            if (article == null)
+                throw new EntityNotFoundException(typeof(Article), id);
 
             var comments = _commentManager.GetComments(id);
             return Ok(comments);
@@ -65,7 +73,11 @@ namespace App.News.Controllers
                 throw new ArgumentNullException(nameof(comment));
             }
 
-            _articleManager.GetArticleById(id);
+            var article = _articleManager.GetArticleById(id);
+
+            if (article == null)
+                throw new EntityNotFoundException(typeof(Article), id);
+
             _commentManager.AddComment(comment);
 
             return Ok();

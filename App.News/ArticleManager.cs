@@ -1,6 +1,5 @@
 ﻿using App.Configuration;
 using App.Models.News;
-using App.News.Exceptions;
 using App.Repositories.News;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -29,9 +28,6 @@ namespace App.News
             _logger.LogInformation("Call GetArticleById with id {id}", id);
 
             var article = _repository.GetArticleById(id);
-
-            if (article == null)
-                throw new EntityNotFoundException(typeof(Article), id);
 
             return article;
         }
