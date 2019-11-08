@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -29,16 +30,10 @@ namespace App.Currencies.Filters
                         await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.EntityType.AssemblyQualifiedName}.");
                         break;
                     }
-                case CurrencyCodeFormatException currencyCodeFormat:
+                case ArgumentException argument:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.HttpContext.Response.WriteAsync(currencyCodeFormat.Message);
-                        break;
-                    }
-                case FutureDateException futureDate:
-                    {
-                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.HttpContext.Response.WriteAsync(futureDate.Message);
+                        await context.HttpContext.Response.WriteAsync(argument.Message);
                         break;
                     }
                 default:

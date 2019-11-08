@@ -23,7 +23,7 @@ namespace App.Currencies.Repositories
         public ConversionRate GetConversionRate(DateTime date)
         {
             if (date > DateTime.Today)
-                throw new FutureDateException(date);
+                throw new FutureDateException(date, nameof(date));
             return _conversionRates.FirstOrDefault(cr => cr.Date == date);
         }
 

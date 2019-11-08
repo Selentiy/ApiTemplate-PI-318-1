@@ -40,9 +40,9 @@ namespace App.Currencies.Services
             if (fromCode == null)
                 throw new ArgumentNullException(nameof(fromCode));
             if (!Regex.IsMatch(fromCode, "(?i)^[A-Z]{3}$"))
-                throw new CurrencyCodeFormatException(fromCode);
+                throw new CurrencyCodeFormatException(fromCode, nameof(fromCode));
             if (date > DateTime.Today)
-                throw new FutureDateException(date);
+                throw new FutureDateException(date, nameof(date));
 
             var result = new Dictionary<string, decimal>();
 
