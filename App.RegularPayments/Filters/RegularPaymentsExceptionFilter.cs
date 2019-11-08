@@ -30,6 +30,13 @@ namespace App.RegularPayments.Filters
                         await context.HttpContext.Response.WriteAsync($"Not found: {entityNotFound.Message}");
                         break;
                     }
+                case EntityNullException entityNull:
+                    {
+                        _logger.LogWarning(entityNull, $"Method: {entityNull.TargetSite}. ");
+                        context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.HttpContext.Response.WriteAsync($"Entity is null: {entityNull.Message}");
+                        break;
+                    }
                 case ArgumentException argumentException:
                     {
                         _logger.LogWarning(argumentException, $"Method: {argumentException.TargetSite}. " +

@@ -31,6 +31,10 @@ namespace App.RegularPayments
         public void AddRegularPaymant(RegularPayment regularPayment)
         {
             _logger.LogInformation("AddRegularPaymant method");
+            if (regularPayment == null)
+            {
+                throw new EntityNullException(typeof(RegularPayment));
+            }
 
             if (regularPayment.Payer.Equals(regularPayment.Recipient))
             {

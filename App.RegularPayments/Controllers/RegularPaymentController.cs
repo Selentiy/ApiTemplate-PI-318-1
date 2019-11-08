@@ -46,8 +46,9 @@ namespace App.RegularPayments.Controllers
         [HttpPost]
         public ActionResult CreateRegularPayment([FromBody] RegularPayment regularPayment)
         {
+            _logger.LogInformation("CreateRegularPayment method");
             if (regularPayment == null)
-                throw new EntityNotFoundException(typeof(RegularPayment), -1);
+                throw new EntityNullException(typeof(RegularPayment));
 
             _paymentsManager.AddRegularPaymant(regularPayment);
             return Ok();
@@ -56,11 +57,12 @@ namespace App.RegularPayments.Controllers
         [HttpGet("data")]
         public ActionResult<DateTime> ShowNextPaymentDateByPaymentId(int id)
         {
+            _logger.LogInformation("ShowNextPaymentDateByPaymentId method with id {id}", id);
+            var regularPayment = _paymentsManager.GetRegularPaymentsById(id);
+            if (regularPayment == null)
+                throw new EntityNotFoundException(typeof(RegularPayment),id);
+
             var data = _paymentsManager.ShowNextPaymentData(id);
-
-            if (data == null)
-                throw new EntityNotFoundException(typeof(RegularPayment), id);
-
             return Ok(data);
         }
     }
