@@ -39,14 +39,14 @@ namespace App.Cards.Filters
                 case InvalidBusinessOperationException invalidBusinessOperation:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        _logger.LogWarning(invalidBusinessOperation.Message + $" Method: {invalidBusinessOperation.TargetSite}.");
+                        _logger.LogWarning(invalidBusinessOperation, invalidBusinessOperation.Message + $" Method: {invalidBusinessOperation.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync("Invalid business operation");
                         break;
                     }
                 case PastDateException pastDate:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        _logger.LogWarning(pastDate.Message + $" Method: {pastDate.TargetSite}.");
+                        _logger.LogWarning(pastDate, pastDate.Message + $" Method: {pastDate.TargetSite}.");
                         await context.HttpContext.Response.WriteAsync("Card expiration date is over");
                         break;
                     }
