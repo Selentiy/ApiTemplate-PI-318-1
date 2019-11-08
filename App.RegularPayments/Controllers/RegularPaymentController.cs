@@ -50,7 +50,7 @@ namespace App.RegularPayments.Controllers
             if (regularPayment == null)
                 throw new EntityNullException(typeof(RegularPayment));
 
-            _paymentsManager.AddRegularPaymant(regularPayment);
+            _paymentsManager.AddRegularPayment(regularPayment);
             return Ok();
         }
 

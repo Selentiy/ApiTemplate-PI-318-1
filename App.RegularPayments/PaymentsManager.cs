@@ -12,7 +12,7 @@ namespace App.RegularPayments
 {
     public interface IPaymentsManager
     {
-        void AddRegularPaymant(RegularPayment regularPayment);
+        void AddRegularPayment(RegularPayment regularPayment);
         IEnumerable<RegularPayment> GetRegularPayments();
         RegularPayment GetRegularPaymentsById(int id);
         DateTime ShowNextPaymentData(int id);
@@ -28,13 +28,11 @@ namespace App.RegularPayments
             _logger = logger;
         }
 
-        public void AddRegularPaymant(RegularPayment regularPayment)
+        public void AddRegularPayment(RegularPayment regularPayment)
         {
             _logger.LogInformation("AddRegularPaymant method");
             if (regularPayment == null)
-            {
                 throw new EntityNullException(typeof(RegularPayment));
-            }
 
             if (regularPayment.Payer.Equals(regularPayment.Recipient))
             {
