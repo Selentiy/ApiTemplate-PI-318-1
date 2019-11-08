@@ -1,6 +1,8 @@
 ﻿using App.Configuration;
 using App.Models;
+using App.RegularPayments.Exceptions;
 using App.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace App.RegularPayments
 {
     public interface IPaymentsManager
     {
-        bool AddRegularPaymant(RegularPayment regularPayment);
+        void AddRegularPaymant(RegularPayment regularPayment);
         IEnumerable<RegularPayment> GetRegularPayments();
         RegularPayment GetRegularPaymentsById(int id);
         DateTime ShowNextPaymentData(int id);
@@ -19,38 +21,56 @@ namespace App.RegularPayments
     public class PaymentsManager : IPaymentsManager, ITransientDependency
     {
         readonly IRegularPaymentsRepository _repository;
-        public PaymentsManager(IRegularPaymentsRepository repo)
+        readonly ILogger<PaymentsManager> _logger;
+        public PaymentsManager(IRegularPaymentsRepository repo, ILogger<PaymentsManager> logger)
         {
             _repository = repo;
+            _logger = logger;
         }
 
-        public bool AddRegularPaymant(RegularPayment regularPayment)
+        public void AddRegularPaymant(RegularPayment regularPayment)
         {
+            _logger.LogInformation("AddRegularPaymant method");
 
-            if (regularPayment == null || regularPayment.Payer.Equals(regularPayment.Recipient))
-                return false;
+            if (regularPayment.Payer.Equals(regularPayment.Recipient))
+            {
+                throw new RegularPaymentSameAccount(regularPayment.Payer);
+            }
 
             var sameID = _repository.GetRegularPayments().FirstOrDefault(rp => rp.PaymentID == regularPayment.PaymentID);
             if (sameID != null)
-                return false;
+            {
+                throw new RegularPaymentSameId(regularPayment.PaymentID.ToString());
+            }
 
             _repository.CreateRegularPayment(regularPayment);
-            return true;
         }
  
         public IEnumerable<RegularPayment> GetRegularPayments()
         {
+            _logger.LogInformation("GetRegularPayments method");
             return _repository.GetRegularPayments();
         }
 
         public RegularPayment GetRegularPaymentsById(int id)
         {
-            return _repository.GetRegularPaymentById(id);
+            _logger.LogInformation("GetRegularPaymentsById with id {id}", id);
+            var regularPayment = _repository.GetRegularPaymentById(id);
+            if (regularPayment == null)
+            {
+                throw new EntityNotFoundException(typeof(RegularPayment), id);
+            }
+            return regularPayment;
         }
 
         public DateTime ShowNextPaymentData(int id)
         {
+            _logger.LogInformation("ShowNextPaymentData with id {id}", id);
             RegularPayment regularPayment = GetRegularPaymentsById(id);
+            if (regularPayment == null)
+            {
+                throw new EntityNotFoundException(typeof(RegularPayment), id);
+            }
             return regularPayment.DateOfLastPay.AddDays(regularPayment.Period);
         }
     }
