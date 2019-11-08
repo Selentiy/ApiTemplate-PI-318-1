@@ -17,6 +17,11 @@ namespace App.News
 
         public void ValidateComment(Comment comment)
         {
+            if (comment == null)
+            {
+                throw new ArgumentNullException(nameof(comment));
+            }
+
             ValidateAuthorName(comment.AuthorName);
             ValidateCommentContent(comment.Content);
         }

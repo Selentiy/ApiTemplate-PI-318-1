@@ -3,7 +3,6 @@ using App.News.Exceptions;
 using App.News.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 
 namespace App.News.Controllers
@@ -67,11 +66,6 @@ namespace App.News.Controllers
         public ActionResult AddComment(int id, [FromBody]Comment comment)
         {
             _logger.LogInformation("Call AddComment method with id {id}", id);
-
-            if (comment == null)
-            {
-                throw new ArgumentNullException(nameof(comment));
-            }
 
             var article = _articleManager.GetArticleById(id);
 
