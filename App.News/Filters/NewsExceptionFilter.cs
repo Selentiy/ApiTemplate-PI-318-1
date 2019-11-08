@@ -23,15 +23,6 @@ namespace App.News.Filters
             _logger.LogError(context.Exception, $"Error occurred in context of {_context}");
             switch (context.Exception)
             {
-                case EntityNoContentException entityNoContent:
-                    {
-                        _logger.LogWarning(entityNoContent, $"Method: {entityNoContent.TargetSite}. " +
-                            $"Entity Type: {entityNoContent.EntityType.Name}.");
-                        context.HttpContext.Response.StatusCode = StatusCodes.Status204NoContent;
-                        _logger.LogWarning(entityNoContent, $"");
-                        await context.HttpContext.Response.WriteAsync($"No content: {entityNoContent.Message}");
-                        break;
-                    }
                 case EntityNotFoundException entityNotFound:
                     {
                         _logger.LogWarning(entityNotFound, $"Method: {entityNotFound.TargetSite}. " +

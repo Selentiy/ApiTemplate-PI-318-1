@@ -4,7 +4,6 @@ using App.News.Exceptions;
 using App.Repositories.News;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace App.News
 {
@@ -42,9 +41,6 @@ namespace App.News
             _logger.LogInformation("Call GetArticles method");
 
             var articles =_repository.GetArticles();
-
-            if (articles.Count() == 0)
-                throw new NoArticlesContentException();
 
             return articles;
         }

@@ -1,6 +1,5 @@
 ﻿using App.Configuration;
 using App.Models.News;
-using App.News.Exceptions;
 using App.Repositories.News;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -40,9 +39,6 @@ namespace App.News
             _logger.LogInformation("Call GetComments method with articleId {articleId}", articleId);
 
             var comments = _repository.GetComments().Where(cm => cm.ArticleID == articleId);
-
-            if (comments.Count() == 0)
-                throw new NoCommentsContentException(articleId);
 
             return comments;
         }
