@@ -8,7 +8,7 @@ namespace App.Accounts.Exceptions
         public int ItemId { get; private set; }
 
         public InvalidBlockOperationException(Type entityType, int itemId) : 
-            base($"Item {entityType} with id {itemId} is already blocked")
+            base($"Item {entityType.Name} with id {itemId} is already blocked")
         {
             EntityType = entityType;
             ItemId = itemId;

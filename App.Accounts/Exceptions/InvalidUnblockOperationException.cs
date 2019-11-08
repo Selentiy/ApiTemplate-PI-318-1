@@ -8,7 +8,7 @@ namespace App.Accounts.Exceptions
         public int ItemId { get; private set; }
 
         public InvalidUnblockOperationException(Type entityType, int itemId) :
-            base($"Item {entityType} with id {itemId} is already unblocked")
+            base($"Item {entityType.Name} with id {itemId} is already unblocked")
         {
             EntityType = entityType;
             ItemId = itemId;

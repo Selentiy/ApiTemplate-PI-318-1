@@ -24,18 +24,21 @@ namespace App.Accounts.Filters
             {
                 case EntityNotFoundException entityNotFound:
                     {
+                        _logger.LogWarning(entityNotFound, $"Entity type: {entityNotFound.Message}. Method: {entityNotFound.TargetSite}");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.EntityType.AssemblyQualifiedName}.");
+                        await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.Message}");
                         break;
                     }
                 case InvalidBusinessOperationException invalidOperation:
                     {
+                        _logger.LogWarning(invalidOperation, $"Method: {invalidOperation.TargetSite}");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.HttpContext.Response.WriteAsync("Invalid business operation.");
+                        await context.HttpContext.Response.WriteAsync($"Bad request: {invalidOperation.Message}");
                         break;
                     }
                 default:
                     {
+                        _logger.LogError(context.Exception, $"Method: {context.Exception.TargetSite}.");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         await context.HttpContext.Response.WriteAsync("Unhandled exception! Please, contact support for resolve.");
                         break;
