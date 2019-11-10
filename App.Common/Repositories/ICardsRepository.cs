@@ -1,4 +1,4 @@
-﻿using App.Models.Cards.Models;
+﻿using App.Models.Cards;
 using System;
 
 namespace App.Repositories
@@ -6,8 +6,8 @@ namespace App.Repositories
     public interface ICardsRepository
     {
         Card GetCard(long number, DateTime expiresEnd, ushort CVV);
-        bool BlockCard(string ownerName, long number, DateTime expiresEnd, ushort CVV);
-        bool RemoveLimit(long number, DateTime expiresEnd, ushort CVV);
-        bool SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit);
+        void BlockCard(long number, DateTime expiresEnd, ushort CVV);
+        void RemoveLimit(long number, DateTime expiresEnd, ushort CVV);
+        void SetLimit(long number, DateTime expiresEnd, ushort CVV, int limit);
     }
 }
