@@ -1,24 +1,31 @@
 ﻿using App.Models;
+using App.RegularPayments.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using App.RegularPayments.Filters;
 
 namespace App.RegularPayments.Controllers
 {
     [Route("api/regularpayment/")]
     [ApiController]
-    public class RegularPaymentController : ControllerBase
+    [TypeFilter(typeof(RegularPaymentsExceptionFilter), Arguments = new object[] { nameof(RegularPaymentController) })]
+    public class RegularPaymentController : ControllerBase  
     {
         readonly IPaymentsManager _paymentsManager;
-        public RegularPaymentController(IPaymentsManager paymentsManager)
+        readonly ILogger<RegularPaymentController> _logger;
+        public RegularPaymentController(IPaymentsManager paymentsManager, ILogger<RegularPaymentController> logger)
         {
             _paymentsManager = paymentsManager;
+            _logger = logger;
         }
+
         [HttpGet("all")]    
         public ActionResult<IEnumerable<RegularPayment>> GetAllRegularPayments()
         {
+            _logger.LogInformation("GetAllRegularPayments method");
             var regpayments = _paymentsManager.GetRegularPayments();
 
             if(regpayments.Count() == 0)
@@ -31,30 +38,31 @@ namespace App.RegularPayments.Controllers
         [HttpGet("{id}")]
         public ActionResult<RegularPayment> GetRegularPayment(int id)
         {
+            _logger.LogInformation("GetRegularPayment method with id {id}", id);
             var regpay = _paymentsManager.GetRegularPaymentsById(id);
-            if (regpay == null)
-               return  NotFound();
             return regpay;
 
         }
         [HttpPost]
         public ActionResult CreateRegularPayment([FromBody] RegularPayment regularPayment)
         {
-            bool result = _paymentsManager.AddRegularPaymant(regularPayment);
-            if (!result)
-                return BadRequest();
+            _logger.LogInformation("CreateRegularPayment method");
+            if (regularPayment == null)
+                throw new EntityNullException(typeof(RegularPayment));
 
+            _paymentsManager.AddRegularPayment(regularPayment);
             return Ok();
         }
 
         [HttpGet("data")]
         public ActionResult<DateTime> ShowNextPaymentDateByPaymentId(int id)
         {
+            _logger.LogInformation("ShowNextPaymentDateByPaymentId method with id {id}", id);
+            var regularPayment = _paymentsManager.GetRegularPaymentsById(id);
+            if (regularPayment == null)
+                throw new EntityNotFoundException(typeof(RegularPayment),id);
+
             var data = _paymentsManager.ShowNextPaymentData(id);
-
-            if (data == null)
-                return NoContent();
-
             return Ok(data);
         }
     }
