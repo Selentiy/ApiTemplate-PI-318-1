@@ -1,6 +1,7 @@
 ﻿using App.Configuration;
 using App.Models.News;
 using App.Repositories.News;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,37 +9,38 @@ namespace App.News
 {
     public interface ICommentManager
     {
-        bool AddComment(Comment comment);
+        void AddComment(Comment comment);
         IEnumerable<Comment> GetComments(int articleId);
     }
 
     public class CommentManager : ICommentManager, ITransientDependency
     {
         readonly ICommentsRepository _repository;
+        readonly ICommentValidatorService _validator;
+        readonly ILogger<CommentManager> _logger;
 
-        public CommentManager(ICommentsRepository repo)
+        public CommentManager(ICommentsRepository repo, ICommentValidatorService validatorService, ILogger<CommentManager> logger)
         {
             _repository = repo;
+            _validator = validatorService;
+            _logger = logger;
         }
 
-        public bool AddComment(Comment comment)
+        public void AddComment(Comment comment)
         {
-            if (comment == null)
-                return false;
+            _logger.LogInformation("Call AddComment method");
 
-            var sameComment = _repository.GetComments().Where(cm => cm.ArticleID == comment.ArticleID)
-                                                       .FirstOrDefault(cm => cm.CommentID == comment.CommentID);
-
-            if (sameComment != null)
-                return false;
-
+            _validator.ValidateComment(comment);
             _repository.CreateComment(comment);
-            return true;
         }
 
         public IEnumerable<Comment> GetComments(int articleId)
         {
-            return _repository.GetComments().Where(cm => cm.ArticleID == articleId);
+            _logger.LogInformation("Call GetComments method with articleId {articleId}", articleId);
+
+            var comments = _repository.GetComments().Where(cm => cm.ArticleID == articleId);
+
+            return comments;
         }
     }
 }
