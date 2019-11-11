@@ -8,6 +8,6 @@ namespace App.Loans.Interface
         IEnumerable<string> GetValues();
         IEnumerable<Loan> GetLoans();
 
-        Loan Get(int Index);
+        Loan Get(int Id);
     }
 }

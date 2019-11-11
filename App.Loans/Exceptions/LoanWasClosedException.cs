@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace App.Loans.Exceptions
 {
-    class LoanWasClosedException
+    public class LoanWasClosedException : Exception
     {
+        /// <summary>
+        /// Id = Id кредита 
+        /// </summary>
+        public int Id { get; private set; }
+
+        public LoanWasClosedException(int Id)
+        {
+            this.Id = Id;
+        }
     }
 }
