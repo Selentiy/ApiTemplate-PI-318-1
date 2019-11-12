@@ -35,7 +35,7 @@ namespace App.Loans
             _logger.LogDebug("Method:AmountOfPaymentsLeft");
             if (GetLoan == null)
                 throw new EntityNotFoundException(typeof(Loan));
-            logger.LogDebug("Method:AmountOfPaymentsLeft");
+            _logger.LogDebug("Method:AmountOfPaymentsLeft");
             if (GetLoan.AmountOfPaymentsLeft() == 0)
                 throw new LoanWasClosedException(Id);
             string a = System.Convert.ToString(GetLoan.AmountOfPaymentsLeft());
