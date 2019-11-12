@@ -7,15 +7,15 @@ using App.Loans.Exceptions;
 
 namespace App.Loans
 {
-
     public class LoansManager : ILoanManger, ITransientDependency
     {
         readonly ILoanRepository _repository;
         private readonly ILogger<LoansManager> _logger;
 
         public LoansManager(ILoanRepository repository,
-            ILogger<LoansManager> _logger)
+            ILogger<LoansManager> logger)
         {
+            _logger = logger;
             _repository = repository;
         }
 
@@ -36,7 +36,7 @@ namespace App.Loans
             if (GetLoan == null)
                 throw new EntityNotFoundException(typeof(Loan));
             logger.LogDebug("Method:AmountOfPaymentsLeft");
-            if (GetLoan.NumberOfPayments == 0)
+            if (GetLoan.AmountOfPaymentsLeft() == 0)
                 throw new LoanWasClosedException(Id);
             string a = System.Convert.ToString(GetLoan.AmountOfPaymentsLeft());
             return a;
