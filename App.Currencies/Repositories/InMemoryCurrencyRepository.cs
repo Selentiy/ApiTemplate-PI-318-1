@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Configuration;
-using App.Currencies.Models;
+using App.Currencies.Exceptions;
+using App.Models.Currencies;
 using App.Repositories;
 
 namespace App.Currencies.Repositories
@@ -19,25 +20,11 @@ namespace App.Currencies.Repositories
             CreateData();
         }
 
-        public string GetCurrencyCode(int id)
+        public ConversionRate GetConversionRate(DateTime date)
         {
-            var codes = GetCurrencyCodes()?.ToList();
-            if (codes == null)
-                return null;
-            if (id < 0 || id >= codes.Count)
-                return null;
-            return codes[id];
-        }
-
-        public IEnumerable<string> GetCurrencyCodes()
-        {
-            return _conversionRates[0].Currencies?.ToDictionary(x => x.Key, x => x.Value).Keys;
-        }
-
-        public IEnumerable<KeyValuePair<string, decimal>> GetExchangeRates(DateTime date)
-        {
-            var conversionRate = _conversionRates.Where(cr => cr.Date == date).FirstOrDefault();
-            return conversionRate?.Currencies;
+            if (date > DateTime.Today)
+                throw new FutureDateException(date, nameof(date));
+            return _conversionRates.FirstOrDefault(cr => cr.Date == date);
         }
 
         private void CreateData()
@@ -52,8 +39,7 @@ namespace App.Currencies.Repositories
             tempDic1.Add("USD", 1.0m);
             _conversionRate1.Currencies = tempDic1;
 
-
-            var _conversionRate2 = new ConversionRate(new DateTime(2019, 10, 1));
+            var _conversionRate2 = new ConversionRate(DateTime.Today);
             tempDic2.Add("UAH", 24.4715083357m);
             tempDic2.Add("RUB", 65.2378996809m);
             tempDic2.Add("EUR", 0.9147112977m);
@@ -61,7 +47,6 @@ namespace App.Currencies.Repositories
             _conversionRate2.Currencies = tempDic2;
 
             _conversionRates = new ConversionRate[] { _conversionRate1, _conversionRate2 };
-
         }
     }
 }
