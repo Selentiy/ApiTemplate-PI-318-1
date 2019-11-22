@@ -1,0 +1,5 @@
+{
+    "ResourceNotFound": "Ressource wurde nicht gefunden",
+    "InvalidBusinessOperation": "Hände hoch, alles kaputt",
+    "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
+}

@@ -29,7 +29,8 @@ namespace App.Example.Services
         // propoerty should be readonly, so it could not be changed after initialization
         readonly IValuesRepository _repository;
         // resolving repository through constructor dependency
-        public ValuesManager(IValuesRepository repository)
+        public ValuesManager(
+            IValuesRepository repository)
         {
             _repository = repository;
         }
@@ -56,7 +57,7 @@ namespace App.Example.Services
         /// <inheritdoc/>
         public void PerformBusinessOperation()
         {
-            throw new InvalidBusinessOperationException("Invalid operation");
+            throw new InvalidBusinessOperationException("InvalidBusinessOperation");
         }
     }
 }
