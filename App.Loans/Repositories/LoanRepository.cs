@@ -2,9 +2,10 @@
 using App.Configuration;
 using App.Loans.Interface;
 using App.Loans.Models;
+
 namespace App.Loans.Repositories
 {
-    public class LoanRepository : ILoanRepository, ITransientDependency
+    public class LoanRepository : ILoanRepository, ISingletoneDependency
     {
         public Loan[] loans = new Loan[5];
 
@@ -31,9 +32,11 @@ namespace App.Loans.Repositories
             return str;
         }
 
-        public Loan Get(int Index)
+        public Loan Get(int Id)
         {
-            return loans[Index];
+            if (Id >= loans.Length || Id < 0)
+                return null;
+            return loans[Id];
         }
     }
 }
