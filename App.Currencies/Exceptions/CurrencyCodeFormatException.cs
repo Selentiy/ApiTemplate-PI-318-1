@@ -8,12 +8,6 @@ namespace App.Currencies.Exceptions
     {
         public string CurrencyCode { get; private set; }
 
-        public CurrencyCodeFormatException(string currencyCode, string paramName) : 
-            base($"Currency code must consist of three letters.", paramName)
-        {
-            CurrencyCode = currencyCode;
-        }
-
         public CurrencyCodeFormatException(string message, string currencyCode, string paramName) :
             base(message, paramName)
         {
