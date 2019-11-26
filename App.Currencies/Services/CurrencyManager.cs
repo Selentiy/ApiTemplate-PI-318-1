@@ -1,5 +1,6 @@
 ﻿using App.Configuration;
 using App.Currencies.Exceptions;
+using App.Currencies.Localization;
 using App.Models.Currencies;
 using App.Repositories;
 using Microsoft.Extensions.Logging;
@@ -20,11 +21,14 @@ namespace App.Currencies.Services
     {
         private readonly ICurrencyRepository _repository;
         private readonly ILogger<CurrencyManager> _logger;
+        private readonly ILocalizationManager _localizationManager;
 
-        public CurrencyManager(ICurrencyRepository repository, ILogger<CurrencyManager> logger)
+        public CurrencyManager(ICurrencyRepository repository, ILogger<CurrencyManager> logger, 
+            ILocalizationManager localizationManager)
         {
             _repository = repository;
             _logger = logger;
+            _localizationManager = localizationManager;
         }
 
         public IEnumerable<string> GetCurrencyCodes()
@@ -40,19 +44,31 @@ namespace App.Currencies.Services
             if (fromCode == null)
                 throw new ArgumentNullException(nameof(fromCode));
             if (!Regex.IsMatch(fromCode, "(?i)^[A-Z]{3}$"))
-                throw new CurrencyCodeFormatException(fromCode, nameof(fromCode));
+            {
+                var message = _localizationManager.GetResource("CurrencyCodeFormatException");
+                throw new CurrencyCodeFormatException(message, fromCode, nameof(fromCode));
+            }
             if (date > DateTime.Today)
-                throw new FutureDateException(date, nameof(date));
+            {
+                var message = _localizationManager.GetResource("FutureDateException");
+                throw new FutureDateException(message, date, nameof(date));
+            }
 
             var result = new Dictionary<string, decimal>();
 
             var conversionRate = _repository.GetConversionRate(date);
             if (conversionRate == null)
-                throw new EntityNotFoundException(typeof(ConversionRate));
+            {
+                var message = _localizationManager.GetResource("EntityNotFoundException");
+                throw new EntityNotFoundException(message, typeof(ConversionRate));
+            }
 
             var exchangeRates = conversionRate.Currencies.ToDictionary(x => x.Key, x => x.Value);
             if (!exchangeRates.Keys.Contains(fromCode))
-                throw new EntityNotFoundException(typeof(ConversionRate));
+            {
+                var message = _localizationManager.GetResource("EntityNotFoundException");
+                throw new EntityNotFoundException(message, typeof(ConversionRate));
+            }
 
             foreach (var rate in exchangeRates)
                 result.Add(rate.Key, GetConversionRate(exchangeRates, fromCode, rate.Key));
