@@ -1,6 +1,7 @@
 ﻿using App.Models.News;
 using App.News.Exceptions;
 using App.News.Filters;
+using App.News.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

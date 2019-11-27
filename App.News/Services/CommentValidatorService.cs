@@ -4,7 +4,7 @@ using App.News.Exceptions;
 using System;
 using System.Linq;
 
-namespace App.News
+namespace App.News.Services
 {
     public interface ICommentValidatorService
     {

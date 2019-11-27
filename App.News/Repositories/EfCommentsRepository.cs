@@ -2,7 +2,6 @@
 using App.Models.News;
 using App.News.Database;
 using App.Repositories.News;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,8 +18,8 @@ namespace App.News.Repositories
 
         public void CreateComment(Comment comment)
         {
-                _dbContext.Add(comment);
-                _dbContext.SaveChanges();
+            _dbContext.Add(comment);
+            _dbContext.SaveChanges();
         }
 
         public Comment GetCommentById(int commentId)
