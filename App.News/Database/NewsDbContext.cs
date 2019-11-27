@@ -18,7 +18,11 @@ namespace App.News.Database
             modelBuilder.Entity<Article>()
                         .HasKey(e => e.ArticleID);
             modelBuilder.Entity<Comment>()
-                        .HasKey(e => new { e.ArticleID, e.CommentID });
+                        .HasKey(e => e.CommentID);
+
+            modelBuilder.Entity<Comment>()
+                        .Property(f => f.CommentID)
+                        .ValueGeneratedOnAdd();
         }
     }
 }

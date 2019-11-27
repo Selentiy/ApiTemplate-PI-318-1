@@ -11,4 +11,10 @@ namespace App.Models.News
 
         public int ArticleID { get; set; }
     }
+
+    public class CreateCommentViewModel
+    {
+        public string AuthorName { get; set; }
+        public string Content { get; set; }
+    }
 }

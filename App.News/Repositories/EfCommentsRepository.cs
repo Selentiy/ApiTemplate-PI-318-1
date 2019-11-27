@@ -23,10 +23,9 @@ namespace App.News.Repositories
                 _dbContext.SaveChanges();
         }
 
-        public Comment GetCommentById(int articleId, int commentId)
+        public Comment GetCommentById(int commentId)
         {
             var comment = _dbContext.Comments.AsQueryable()
-                                             .Where(c => c.ArticleID == articleId)
                                              .FirstOrDefault(c => c.CommentID == commentId);
 
             return comment;

@@ -6,7 +6,7 @@ namespace App.Repositories.News
     public interface ICommentsRepository
     {
         IEnumerable<Comment> GetComments();
-        Comment GetCommentById(int articleId, int commentId);
+        Comment GetCommentById(int commentId);
         void CreateComment(Comment comment);
     }
 }

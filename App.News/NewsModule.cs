@@ -96,7 +96,6 @@ namespace App.News
                 {
                     ArticleID = 1,
                     AuthorName = "Anonim",
-                    CommentID = 1,
                     Content = "This is my anonim comment",
                     Date = DateTime.Parse("01/18/2016 07:22:16"),
                 },
@@ -104,7 +103,6 @@ namespace App.News
                 {
                     ArticleID = 1,
                     AuthorName = "Taras",
-                    CommentID = 2,
                     Content = "I love dogs",
                     Date = DateTime.Parse("02/13/2016 06:21:16"),
                 },
@@ -112,7 +110,6 @@ namespace App.News
                 {
                     ArticleID = 2,
                     AuthorName = "Taras",
-                    CommentID = 1,
                     Content = "I love cats",
                     Date = DateTime.Parse("02/13/2016 06:23:06"),
                 },
@@ -120,7 +117,6 @@ namespace App.News
                 {
                     ArticleID = 3,
                     AuthorName = "Taras",
-                    CommentID = 1,
                     Content = "I love birds",
                     Date = DateTime.Parse("02/13/2016 06:24:12"),
                 }
