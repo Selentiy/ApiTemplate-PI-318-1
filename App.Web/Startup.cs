@@ -23,6 +23,9 @@ namespace App.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // configure localization for the application
+            ConfigureLocalization(services);
+
             // ## ASP NET Core template code
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // ##
@@ -52,6 +55,7 @@ namespace App.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseRequestLocalization();
             app.UseMvc();
             // ##
 

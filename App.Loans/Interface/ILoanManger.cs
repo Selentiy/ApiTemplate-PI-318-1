@@ -5,6 +5,6 @@ namespace App.Loans.Interface
     public interface ILoanManger
     {
         IEnumerable<Loan> GetLoans();
-        IEnumerable<string> AmountOfPaymentsLeft(int Id);
+        string AmountOfPaymentsLeft(int Id);
     }
 }
