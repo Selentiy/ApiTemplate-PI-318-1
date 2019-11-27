@@ -2,10 +2,7 @@
 using App.Models.News;
 using App.News.Database;
 using App.Repositories.News;
-<<<<<<< HEAD
 using System;
-=======
->>>>>>> 850aa6bd3b706578a1929545e6affb0a4cf8222d
 using System.Collections.Generic;
 using System.Linq;
 
