@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace App.News
+namespace App.News.Services
 {
     public interface ICommentManager
     {

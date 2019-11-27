@@ -2,12 +2,13 @@
 using App.Models.News;
 using App.News.Database;
 using App.Repositories.News;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace App.News.Repositories
 {
-    public class EfArticlesRepository : IArticlesRepository, ITransientDependency
+    public class EfArticlesRepository : IArticlesRepository, ITransientDependency, IDisposable
     {
         private readonly NewsDbContext _dbContext;
 
@@ -26,6 +27,11 @@ namespace App.News.Repositories
         {
             var articles = _dbContext.Articles.ToList();
             return articles;
+        }
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
         }
     }
 }
