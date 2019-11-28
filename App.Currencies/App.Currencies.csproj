@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -13,5 +13,12 @@
   <ItemGroup>
     <ProjectReference Include="..\App.Common\App.Common.csproj" />
   </ItemGroup>
+  
+<ItemGroup>
+    <Content Remove="Resources\**\*.json" />
+ </ItemGroup>
+ <ItemGroup>
+    <EmbeddedResource Include="Resources\**\*.json" />
+ </ItemGroup>
 
 </Project>

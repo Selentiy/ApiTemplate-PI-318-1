@@ -1,4 +1,5 @@
 ﻿using App.Currencies.Exceptions;
+using App.Currencies.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -12,11 +13,14 @@ namespace App.Currencies.Filters
     {
         private readonly string _context;
         private readonly ILogger<CurrenciesExceptionFilter> _logger;
+        private readonly ILocalizationManager _localizationManager;
 
-        public CurrenciesExceptionFilter(string context, ILogger<CurrenciesExceptionFilter> logger)
+        public CurrenciesExceptionFilter(string context, ILogger<CurrenciesExceptionFilter> logger,
+            ILocalizationManager localizationManager)
         {
             _context = context;
             _logger = logger;
+            _localizationManager = localizationManager;
         }
 
         public async Task OnExceptionAsync(ExceptionContext context)
@@ -27,7 +31,7 @@ namespace App.Currencies.Filters
                 case EntityNotFoundException entityNotFound:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.EntityType.AssemblyQualifiedName}.");
+                        await context.HttpContext.Response.WriteAsync(entityNotFound.Message);
                         break;
                     }
                 case ArgumentException argument:
@@ -39,7 +43,8 @@ namespace App.Currencies.Filters
                 default:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        await context.HttpContext.Response.WriteAsync("Unhandeled exception!");
+                        var message = _localizationManager.GetResource("UnhandledException");
+                        await context.HttpContext.Response.WriteAsync(message);
                         break;
                     }
             }
