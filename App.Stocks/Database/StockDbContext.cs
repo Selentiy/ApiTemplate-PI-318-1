@@ -17,7 +17,6 @@ namespace App.Stocks.Database
 
 			builder.Entity<Company>()
 				.HasMany(a => a.Stocks).WithOne(b => b.Company)
-				//.HasForeignKey(s => s.CompanyId)
 				.HasPrincipalKey(c => c.OrgId);
 			builder.Entity<Stock>()
 				.HasOne(a => a.Candle).WithOne(b => b.Stock)

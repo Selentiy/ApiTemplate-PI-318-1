@@ -12,7 +12,7 @@ namespace App.Models.Stocks
 
 		public bool IsTraded { get; set; }
 		public OHCLCandle Candle { get; set; }
-		//public int CompanyId { get; set; }
+		
 		public virtual Company Company { get; set; }
 
 		public bool CompareDate(DateTime date) => date.ToShortDateString()
