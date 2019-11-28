@@ -1,8 +1,10 @@
 ﻿using App.Models.News;
 using App.News.Exceptions;
 using App.News.Filters;
+using App.News.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace App.News.Controllers
@@ -63,7 +65,7 @@ namespace App.News.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public ActionResult AddComment(int id, [FromBody]Comment comment)
+        public ActionResult AddComment(int id, [FromBody]CreateCommentViewModel createComment)
         {
             _logger.LogInformation("Call AddComment method with id {id}", id);
 
@@ -72,9 +74,24 @@ namespace App.News.Controllers
             if (article == null)
                 throw new EntityNotFoundException(typeof(Article), id);
 
+            var comment = MapCreateCommentToComment(createComment);
+            comment.Date = DateTime.Now;
+            comment.ArticleID = id;
+
             _commentManager.AddComment(comment);
 
             return Ok();
+        }
+
+        private Comment MapCreateCommentToComment(CreateCommentViewModel createComment)
+        {
+            _logger.LogInformation("Call MapCreateCommentToComment method");
+
+            return new Comment()
+            {
+                AuthorName = createComment.AuthorName,
+                Content = createComment.Content,
+            };
         }
     }
 }

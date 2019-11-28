@@ -4,7 +4,7 @@ using App.Repositories.News;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-namespace App.News
+namespace App.News.Services
 {
     public interface IArticleManager
     {
