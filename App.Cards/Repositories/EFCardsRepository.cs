@@ -19,20 +19,7 @@ namespace App.Cards.Repositories
 
         private Card GetCardByNumber(long number)
         {
-            var cards = _dbContext.Cards.ToList();
-
-            Card result = null;
-
-            foreach (var card in cards)
-            {
-                if (card.Number == number)
-                {
-                    result = card;
-                    break;
-                }
-            }
-
-            return result;
+            return _dbContext.Cards.Where(c => c.Number == number).FirstOrDefault();
         }
 
         private Card CheckCardByCVV(Card card, DateTime expiresEnd, ushort CVV)
