@@ -7,7 +7,7 @@ using App.Repositories;
 
 namespace App.Cards.Repositories
 {
-    public class InMemoryCardsRepository : ICardsRepository, ISingletoneDependency
+    public class InMemoryCardsRepository : ICardsRepository
     {
         List<Card> cards = new List<Card>();
 
