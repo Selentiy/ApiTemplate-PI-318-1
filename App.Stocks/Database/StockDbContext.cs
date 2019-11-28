@@ -1,8 +1,5 @@
 ﻿using App.Models.Stocks;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace App.Stocks.Database
 {
@@ -14,14 +11,17 @@ namespace App.Stocks.Database
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-
 			builder.Entity<Company>()
-				.HasMany(a => a.Stocks).WithOne(b => b.Company)
-				.HasPrincipalKey(c => c.OrgId);
+				.HasKey(c => c.OrgId);
+			builder.Entity<Company>()
+				.HasMany(a => a.Stocks).WithOne(b => b.Company);
+			builder.Entity<Stock>()
+				.HasKey(s => s.Key);
 			builder.Entity<Stock>()
 				.HasOne(a => a.Candle).WithOne(b => b.Stock)
-				.HasForeignKey<OHCLCandle>(o => o.StockRef)
-				.HasPrincipalKey<Stock>(s => s.Key);
+				.HasForeignKey<OHCLCandle>(o => o.StockRef);
+			builder.Entity<OHCLCandle>()
+				.HasKey(o => o.CandleKey);
 		}
 	}
 }

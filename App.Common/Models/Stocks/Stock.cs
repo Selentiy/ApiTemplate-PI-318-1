@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace App.Models.Stocks
 {
 	public class Stock
 	{
-		[Key]
 		public int Key { get; set; }
 		public string Ticker { get; set; }
 
@@ -24,7 +21,6 @@ namespace App.Models.Stocks
 	/// </summary>
 	public class OHCLCandle 
 	{
-		[Key]
 		public int CandleKey { get; set; }
 
 		public decimal Open { get; set; }

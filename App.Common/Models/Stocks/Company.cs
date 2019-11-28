@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace App.Models.Stocks
 {
 	public class Company
 	{
-		[Key]
 		public int OrgId { get; set; }
 		public string FullName { get; set; }
 		public string MainTicker { get; set; }
