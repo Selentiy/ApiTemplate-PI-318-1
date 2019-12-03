@@ -1,0 +1,5 @@
+{
+    "ResourceNotFound": "Resource was not found",
+    "PrivateCompany": "The company is private",
+    "UnhandeledException": "Unhandled exception occurred !"
+}
