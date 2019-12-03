@@ -1,4 +1,6 @@
-﻿using App.Stocks.Exceptions;
+﻿using App.Configuration;
+using App.Stocks.Exceptions;
+using App.Stocks.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -7,45 +9,48 @@ using System.Threading.Tasks;
 
 namespace App.Stocks
 {
-	public class StockExceptionFilter : IAsyncExceptionFilter
+	public class StockExceptionFilter : IAsyncExceptionFilter, ITransientDependency
 	{
 		readonly ILogger<StockExceptionFilter> logger;
-		readonly string context; 
+		readonly ILocalizationManager _localizationManager;
 
-		public StockExceptionFilter(ILogger<StockExceptionFilter> logger, string context)
+		public StockExceptionFilter(ILogger<StockExceptionFilter> logger, 
+			ILocalizationManager localizationManager)
 		{
 			this.logger = logger;
-			this.context = context;
+			_localizationManager = localizationManager;
 		}
 
 		public async Task OnExceptionAsync(ExceptionContext context)
 		{
+			var _context = context.ActionDescriptor.DisplayName;
+			logger.LogError(context.Exception, $"Error occurred in context of {_context}");
 			switch (context.Exception)
 			{
 				case NotFoundException notFound:
 					{
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-						logger.LogWarning(notFound.Message + $"Method: {notFound.TargetSite}.");
-					    await context.HttpContext.Response.WriteAsync(notFound.Message);
+						var errorMessage = _localizationManager.GetResource("ResourceNotFound");
+					    await context.HttpContext.Response.WriteAsync(errorMessage);
 						break;
 					}
 				case IncorrectParamException incorrectParam:
 					{
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-						logger.LogWarning(incorrectParam.Message + $"Method: {incorrectParam.TargetSite}.");
-						await context.HttpContext.Response.WriteAsync(incorrectParam.Message);
+						var errorMessage = _localizationManager.GetResource(incorrectParam.Message);
+						await context.HttpContext.Response.WriteAsync(errorMessage);
 						break;
 					}
 				case PrivateCompanyException privateCompany:
 					{
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-						logger.LogWarning(privateCompany.Message + $"Method: {privateCompany.TargetSite}.");
-						await context.HttpContext.Response.WriteAsync(privateCompany.Message);
+						var errorMessage = _localizationManager.GetResource("PrivateCompany");
+						await context.HttpContext.Response.WriteAsync(errorMessage);
 						break;
 					}
 				default:
 					{
-						logger.LogError(context.Exception.Message + $"Method: {context.Exception.TargetSite}.");
+						var errorMessage = _localizationManager.GetResource(context.Exception.Message);
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 						await context.HttpContext.Response.WriteAsync("Unhandled exception!");
 						break;

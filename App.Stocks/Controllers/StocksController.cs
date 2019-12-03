@@ -11,7 +11,7 @@ namespace App.Stocks.Controllers
 {
 	[Route("api/stocks")]
 	[ApiController]
-	[TypeFilter(typeof(StockExceptionFilter), Arguments = new object[] { nameof(StocksController) })]
+	[ServiceFilter(typeof(StockExceptionFilter))]
 	public class StocksController : ControllerBase
 	{
 		readonly IStocksManager _stocksManager;
