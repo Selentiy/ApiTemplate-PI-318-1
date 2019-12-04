@@ -9,8 +9,10 @@ using App.Loans.Filters;
 
 namespace App.Loans.Controllers
 {
+
     [Route("api/loans")]
     [ApiController]
+    [TypeFilter(typeof(LoansExceptionsFilter), Arguments = new object[] { nameof(LoansController) })]
     public class LoansController : ControllerBase
     {
         readonly ILoanManger _loansManager;
