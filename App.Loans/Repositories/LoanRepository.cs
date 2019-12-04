@@ -13,7 +13,7 @@ namespace App.Loans.Repositories
         {
             for (int i = 0; i < 5; i++)
             {
-                loans[i] = new Loan(i * 1000 + 3000, i * 2 + 12, i + 0.5);
+                loans[i] = new Loan(i,i * 1000 + 3000, i * 2 + 12, i + 0.5);
             }
         }
         public IEnumerable<Loan> GetLoans()
