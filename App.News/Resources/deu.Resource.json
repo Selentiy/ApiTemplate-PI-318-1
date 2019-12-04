@@ -1,5 +1,5 @@
 {
   "EntityNotFoundException": "Objekt wurde nicht gefunden",
-  "ValidationCommentException": "Kommentar konnte nicht validiert werden",
+  "ArgumentException": "Anforderung fehlgeschlagene Validierung",
   "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
 }

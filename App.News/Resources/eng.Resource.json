@@ -1,5 +1,5 @@
 {
   "EntityNotFoundException": "Entity was not found",
-  "ValidationCommentException": "Comment failed validation",
+  "ArgumentException": "Request failed validation",
   "UnhandeledException": "Unhandled exception occurred!"
 }

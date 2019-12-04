@@ -11,7 +11,7 @@ namespace App.News.Controllers
 {
     [Route("api/news/")]
     [ApiController]
-    [TypeFilter(typeof(NewsExceptionFilter), Arguments = new object[] { nameof(NewsController) })]
+    [ServiceFilter(typeof(NewsAsyncExceptionFilter))]
     public class NewsController : ControllerBase
     {
         readonly IArticleManager _articleManager;

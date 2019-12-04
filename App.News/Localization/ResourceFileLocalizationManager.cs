@@ -2,13 +2,14 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using App.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace App.News.Localization
 {
-    public class ResourceFileLocalizationManager : ILocalizationManager
+    public class ResourceFileLocalizationManager : ILocalizationManager, ITransientDependency
     {
         private const string DefaultCulture = "en-US";
         private const string ResourceFileFormat = "{0}.Resource.json";

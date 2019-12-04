@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using App.Configuration;
 using App.Models.News;
 using App.News.Database;
@@ -90,6 +91,8 @@ namespace App.News
 
         private static IEnumerable<Comment> GetComments()
         {
+            var provider = new CultureInfo("en-US");
+
             return new List<Comment>()
             {
                 new Comment()
@@ -97,28 +100,28 @@ namespace App.News
                     ArticleID = 1,
                     AuthorName = "Anonim",
                     Content = "This is my anonim comment",
-                    Date = DateTime.Parse("01/18/2016 07:22:16"),
+                    Date = DateTime.Parse("01/18/2016 07:22:16", provider),
                 },
                 new Comment()
                 {
                     ArticleID = 1,
                     AuthorName = "Taras",
                     Content = "I love dogs",
-                    Date = DateTime.Parse("02/13/2016 06:21:16"),
+                    Date = DateTime.Parse("02/13/2016 06:21:16", provider),
                 },
                 new Comment()
                 {
                     ArticleID = 2,
                     AuthorName = "Taras",
                     Content = "I love cats",
-                    Date = DateTime.Parse("02/13/2016 06:23:06"),
+                    Date = DateTime.Parse("02/13/2016 06:23:06", provider),
                 },
                 new Comment()
                 {
                     ArticleID = 3,
                     AuthorName = "Taras",
                     Content = "I love birds",
-                    Date = DateTime.Parse("02/13/2016 06:24:12"),
+                    Date = DateTime.Parse("02/13/2016 06:24:12", provider),
                 }
             };
         }
