@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using App.Loans.Models;
 
 namespace App.Loans.Interface
 {
     public interface ILoanRepository
     {
-        IEnumerable<Loan> GetLoans();
+        IQueryable<Loan> GetLoans();
 
         Loan Get(int Id);
     }

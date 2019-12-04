@@ -27,7 +27,7 @@ namespace App.Loans
         {
             for (int i = 0; i < 5; i++)
             {
-                loans[i] = new Loan(i, i * 1000 + 3000, i * 2 + 12, i + 0.5);
+                loans[i] = new Loan(i+1, i * 1000 + 3000, i * 2 + 12, i + 0.5);
             }
             return loans;
         }
@@ -55,4 +55,4 @@ namespace App.Loans
         }
     }
 }
-}
+
