@@ -2,7 +2,7 @@
 
 namespace App.Cards.Exceptions
 {
-    class PastDateException : Exception
+    public class PastDateException : Exception
     {
         public long Number { get; private set; }
         public DateTime Date { get; private set; }
