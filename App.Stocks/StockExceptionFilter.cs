@@ -37,7 +37,7 @@ namespace App.Stocks
 				case IncorrectParamException incorrectParam:
 					{
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-						var errorMessage = _localizationManager.GetResource(incorrectParam.Message);
+						var errorMessage = _localizationManager.GetResource("InvalidParam");
 						await context.HttpContext.Response.WriteAsync(errorMessage);
 						break;
 					}
@@ -50,7 +50,7 @@ namespace App.Stocks
 					}
 				default:
 					{
-						var errorMessage = _localizationManager.GetResource(context.Exception.Message);
+						var errorMessage = _localizationManager.GetResource("Unhandled");
 						context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 						await context.HttpContext.Response.WriteAsync("Unhandled exception!");
 						break;

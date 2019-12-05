@@ -1,5 +1,6 @@
 {
     "ResourceNotFound": "Ressource wurde nicht gefunden",
     "PrivateCompany": "Das Unternehmen ist privat",
-    "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
+	"InvalidParam": "Ongeldige parameter",
+    "Unhandeled": "Eine nicht behandelte Ausnahme ist aufgetreten!"
 }
