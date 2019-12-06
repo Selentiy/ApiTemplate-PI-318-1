@@ -1,4 +1,6 @@
-﻿using App.News.Exceptions;
+﻿using App.Configuration;
+using App.News.Exceptions;
+using App.News.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -7,20 +9,22 @@ using System.Threading.Tasks;
 
 namespace App.News.Filters
 {
-    public class NewsExceptionFilter : IAsyncExceptionFilter
+    public class NewsAsyncExceptionFilter : IAsyncExceptionFilter, ITransientDependency
     {
-        readonly string _context;
-        readonly ILogger<NewsExceptionFilter> _logger;
+        readonly ILogger<NewsAsyncExceptionFilter> _logger;
+        readonly ILocalizationManager _localizationManager;
 
-        public NewsExceptionFilter(ILogger<NewsExceptionFilter> logger, string context)
+        public NewsAsyncExceptionFilter(ILogger<NewsAsyncExceptionFilter> logger, ILocalizationManager localizationManager)
         {
             _logger = logger;
-            _context = context;
+            _localizationManager = localizationManager;
         }
 
         public async Task OnExceptionAsync(ExceptionContext context)
         {
+            var _context = context.ActionDescriptor.DisplayName;
             _logger.LogError(context.Exception, $"Error occurred in context of {_context}");
+
             switch (context.Exception)
             {
                 case EntityNotFoundException entityNotFound:
@@ -28,7 +32,8 @@ namespace App.News.Filters
                         _logger.LogWarning(entityNotFound, $"Method: {entityNotFound.TargetSite}. " +
                             $"Entity Id: {entityNotFound.EntityId}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                        await context.HttpContext.Response.WriteAsync($"Not found: {entityNotFound.Message}");
+                        var errorMessage = _localizationManager.GetResource("EntityNotFoundException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 case ArgumentException argumentException:
@@ -36,14 +41,16 @@ namespace App.News.Filters
                         _logger.LogWarning(argumentException, $"Method: {argumentException.TargetSite}. " +
                             $"Parameter Name: {argumentException.ParamName}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        await context.HttpContext.Response.WriteAsync($"Bad request: {argumentException.Message}");
+                        var errorMessage = _localizationManager.GetResource("ArgumentException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 default:
                     {
                         _logger.LogError($"Method: {context.Exception.TargetSite}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        await context.HttpContext.Response.WriteAsync("Unhandled exception! Please, contact support for resolve.");
+                        var errorMessage = _localizationManager.GetResource("UnhandeledException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
             }
