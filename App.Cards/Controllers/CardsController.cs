@@ -9,7 +9,7 @@ namespace App.Cards.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [TypeFilter(typeof(CardsExceptionFilter), Arguments = new object[] { nameof(CardsController) })]
+    [ServiceFilter(typeof(CardsAsyncExceptionFilter))]
     public class CardsController : ControllerBase
     {
         private readonly ILogger<CardsController> _logger;
