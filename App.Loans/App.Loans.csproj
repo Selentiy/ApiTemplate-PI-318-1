@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\deu.Resource.json" />
+    <None Remove="Resources\eng.Resource.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\deu.Resource.json" />
+    <EmbeddedResource Include="Resources\eng.Resource.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\App.Common\App.Common.csproj" />
   </ItemGroup>
 
