@@ -14,7 +14,7 @@ namespace App.Loans.Repositories
         {
             _loanDbContext = loansDBContext;
         }
-        public IQueryable<Loan> GetLoans() => _loanDbContext.Loans;
+        public IEnumerable<Loan> GetLoans() => _loanDbContext.Loans;
         public Loan Get(int id) => _loanDbContext.Loans.Where(f => f.Id == id).FirstOrDefault();
     }
 }
