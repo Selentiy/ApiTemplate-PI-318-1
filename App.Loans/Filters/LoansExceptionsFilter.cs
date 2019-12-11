@@ -30,7 +30,6 @@ namespace App.Loans.Filters
                 case LoanWasClosedException LoanWasClosed:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        // await context.HttpContext.Response.WriteAsync($"Loan was closed! Id {LoanWasClosed.Id}");
                         var errorMessage = _localizationManager.GetResource("Loan was closed");
                         await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
