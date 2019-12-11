@@ -1,0 +1,7 @@
+﻿{
+  "BlockedCardException": "Karte wurde gesperrt.",
+  "EntityNotFoundException": "Objekt wurde nicht gefunden.",
+  "PastDateException": "Datum auf der Karte ist vergangen.",
+  "InvalidBusinessOperation": "Hände hoch, alles kaputt",
+  "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
+}

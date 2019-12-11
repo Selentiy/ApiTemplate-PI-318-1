@@ -1,9 +1,10 @@
 ﻿using App.Configuration;
 using App.Models.News;
 using App.Repositories.News;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-namespace App.News
+namespace App.News.Services
 {
     public interface IArticleManager
     {
@@ -14,19 +15,30 @@ namespace App.News
     public class ArticleManager : IArticleManager, ITransientDependency
     {
         readonly IArticlesRepository _repository;
-        public ArticleManager(IArticlesRepository repo)
+        readonly ILogger<ArticleManager> _logger;
+
+        public ArticleManager(IArticlesRepository repo, ILogger<ArticleManager> logger)
         {
             _repository = repo;
+            _logger = logger;
         }
 
         public Article GetArticleById(int id)
         {
-            return _repository.GetArticleById(id);
+            _logger.LogInformation("Call GetArticleById with id {id}", id);
+
+            var article = _repository.GetArticleById(id);
+
+            return article;
         }
 
         public IEnumerable<Article> GetArticles()
         {
-            return _repository.GetArticles();
+            _logger.LogInformation("Call GetArticles method");
+
+            var articles =_repository.GetArticles();
+
+            return articles;
         }
     }
 }

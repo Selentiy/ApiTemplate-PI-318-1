@@ -1,0 +1,6 @@
+﻿{
+  "FutureDateException": "Der Termin ist noch nicht gekommen.",
+  "CurrencyCodeFormatException": "Der Währungscode muss aus drei Buchstaben bestehen.",
+  "EntityNotFoundException": "Objekt wurde nicht gefunden.",
+  "UnhandledException": "Eine nicht behandelte Ausnahme ist aufgetreten."
+}

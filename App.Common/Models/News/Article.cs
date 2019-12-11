@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace App.Models.News
 {
@@ -10,5 +11,7 @@ namespace App.Models.News
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public string BackgroundImageUrl { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

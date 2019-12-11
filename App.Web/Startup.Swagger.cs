@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace App.Web
 {
-    // TODO write description
+    // configure swagger to be able to see api definition
     public partial class Startup
     {
         void ConfigureSwaggerServices(IServiceCollection services)
