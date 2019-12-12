@@ -1,0 +1,7 @@
+{
+  "BlockedCardException": "Card was blocked.",
+  "EntityNotFoundException": "Entity was not found.",
+  "InvalidBusinessOperationException": "Invalid business operation.",
+  "PastDateException": "Date on the card has passed.",
+  "UnhandeledException": "Unhandled exception occurred!"
+}

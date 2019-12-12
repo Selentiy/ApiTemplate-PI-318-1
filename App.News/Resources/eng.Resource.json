@@ -1,0 +1,5 @@
+{
+  "EntityNotFoundException": "Entity was not found",
+  "ArgumentException": "Request failed validation",
+  "UnhandeledException": "Unhandled exception occurred!"
+}

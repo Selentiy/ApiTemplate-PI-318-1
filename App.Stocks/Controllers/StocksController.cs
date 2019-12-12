@@ -1,67 +1,97 @@
-﻿using App.Stocks.Interfaces;
-using App.Stocks.ModelsView;
+﻿using App.Models.Stocks;
+using App.Stocks.Exceptions;
 using App.Stocks.Services;
+using App.Stocks.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace App.Stocks.Controllers
 {
 	[Route("api/stocks")]
 	[ApiController]
+	[ServiceFilter(typeof(StockExceptionFilter))]
 	public class StocksController : ControllerBase
 	{
 		readonly IStocksManager _stocksManager;
 		readonly ICompanyManager _companyManager;
-		readonly IValidateServices _validateService;
+		readonly ILogger<StocksController> _logger;
 
-		public StocksController(IStocksManager valuesManager,
-			ICompanyManager companyManager,
-			IValidateServices validateService)
+		public StocksController(IStocksManager stocksManager,
+			ICompanyManager companyManager, ILogger<StocksController> logger)
 		{
-			_stocksManager = valuesManager;
+			_stocksManager = stocksManager;
 			_companyManager = companyManager;
-			_validateService = validateService;
+			_logger = logger;
 		}
 
 		[HttpGet("companies/{id}/stocks/all")]
-		public async Task<IEnumerable<StocksListItemView>> CompanyStocks(int id)
+		public ActionResult<IEnumerable<StocksListItemView>> CompanyStocks(int id)
 		{
-			return await _stocksManager.CompanyStocksAsync(id);
+			_logger.LogInformation($"Call CompanyStocks method with id : {id}");
+			var result = _stocksManager.CompanyStocks(id);
+			if (result == null)
+			{
+				throw new PrivateCompanyException(id);
+			}
+			List<StocksListItemView> stocks = new List<StocksListItemView>();
+			foreach(var stock in result)
+			{
+				stocks.Add(stock.GetStockView());
+			}
+			return stocks;
 		}
 
 		[HttpGet("companies/{id}/stocks")]
-		public async Task<StocksListItemView> StockByDate([FromQuery] string Date, int id)
+		public ActionResult<StocksListItemView> StockByDate([FromQuery] string Date, int id)
 		{
-			_validateService.ValidateDate(Date);
-			return await _stocksManager.CompanyStockByDate(id, DateTime.Parse(Date));
+			_logger.LogInformation($"Call StockByDate with id : {id} , date: {Date}");
+			if (!DateTime.TryParse(Date, out var date))
+			{
+				throw new IncorrectDateException();
+			}
+			return _stocksManager.CompanyStockByDate(id, date)
+			.GetStockView();
 		}
 
 		[HttpGet("companies/{id}")]
-		public async Task<CompanyView> Company(int id)
+		public ActionResult<CompanyView> Company(int id)
 		{
-			var company = await _companyManager.GetCompanyByIdAsync(id);
+			_logger.LogInformation($"Call Company(by id) with id : {id}");
+			var company = _companyManager.GetCompanyById(id);
 			if(company == null)
 			{
-				throw new HttpListenerException((int)HttpStatusCode.NotFound, "Company not found");
+				throw new NotFoundException(typeof(Company), id);
 			}
-			return company;
+			return company.MappSingleCompany();
 		}
 
 		[HttpGet("companies/active")]
-		public async Task<IEnumerable<CompanyView>> CompaniesWithActiveStocks()
+		public ActionResult<IEnumerable<CompanyView>> CompaniesWithActiveStocks()
 		{
-			return await _companyManager.GetCompaniesWithActiveStocksAsync();
+			_logger.LogInformation($"Call CompaniesWithActiveStocks");
+			var result = _companyManager.GetCompaniesWithActiveStocks();
+			List<CompanyView> companies = new List<CompanyView>();
+			foreach (var company in result)
+			{
+				companies.Add(company.MappSingleCompany());
+			}
+			return companies;
 		}
 
 		[HttpGet("companies/all")]
-		public async Task<IEnumerable<CompanyView>> AllCompanies()
+		public ActionResult<IEnumerable<CompanyView>> AllCompanies()
 		{
-			return await _companyManager.GetAllCompaniesAsync();
+			_logger.LogInformation($"Call AllCompanies");
+			var result = _companyManager.GetAllCompanies();
+			List<CompanyView> companies = new List<CompanyView>();
+			foreach (var company in result)
+			{
+				companies.Add(company.MappSingleCompany());
+			}
+			return companies;
 		}
+
 	}
 }

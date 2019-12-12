@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Web", "App.Web\App.Web.csproj", "{D618DD2D-4BDF-434A-9FF3-4493A05E10E6}"
 EndProject
@@ -9,9 +8,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Common", "App.Common\Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Example", "App.TestModule\App.Example.csproj", "{25F59F96-D5C0-4036-8DF3-2A4568E48602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Cards", "App.Cards\App.Cards.csproj", "{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Loans", "App.Loans\App.Loans.csproj", "{5DAE69E1-D6E8-4A65-B16B-D09CAC34CBCD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Stocks", "App.Stocks\App.Stocks.csproj", "{1495D801-7656-4FE4-AC22-5DC274A6F714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.RegularPayments", "App.RegularPayments\App.RegularPayments.csproj", "{9BBCFBC3-6694-43EF-A4C9-98FCF16621F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Cards", "App.Cards\App.Cards.csproj", "{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.News", "App.News\App.News.csproj", "{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}"
 EndProject
@@ -19,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Currencies", "App.Curre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Users", "App.Users\App.Users.csproj", "{8A0718F2-4249-4C06-B404-A431DAF5A7E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Accounts", "App.Accounts\App.Accounts.csproj", "{5A466173-9B1D-4D6F-B688-9FF52AC5358F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Accounts", "App.Accounts\App.Accounts.csproj", "{5A466173-9B1D-4D6F-B688-9FF52AC5358F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Stocks", "App.Stocks\App.Stocks.csproj", "{4D67FAC3-D21E-4F38-82AD-F405E07AE62E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,14 +42,18 @@ Global
 		{25F59F96-D5C0-4036-8DF3-2A4568E48602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F59F96-D5C0-4036-8DF3-2A4568E48602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25F59F96-D5C0-4036-8DF3-2A4568E48602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DAE69E1-D6E8-4A65-B16B-D09CAC34CBCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DAE69E1-D6E8-4A65-B16B-D09CAC34CBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DAE69E1-D6E8-4A65-B16B-D09CAC34CBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DAE69E1-D6E8-4A65-B16B-D09CAC34CBCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BBCFBC3-6694-43EF-A4C9-98FCF16621F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BBCFBC3-6694-43EF-A4C9-98FCF16621F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BBCFBC3-6694-43EF-A4C9-98FCF16621F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BBCFBC3-6694-43EF-A4C9-98FCF16621F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C6DD2C0-1050-43E4-8ABB-08DD5C9622A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1495D801-7656-4FE4-AC22-5DC274A6F714}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0EB1866-3E51-4BA3-AA69-B53AE05D4C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +70,10 @@ Global
 		{5A466173-9B1D-4D6F-B688-9FF52AC5358F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A466173-9B1D-4D6F-B688-9FF52AC5358F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A466173-9B1D-4D6F-B688-9FF52AC5358F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D67FAC3-D21E-4F38-82AD-F405E07AE62E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D67FAC3-D21E-4F38-82AD-F405E07AE62E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D67FAC3-D21E-4F38-82AD-F405E07AE62E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D67FAC3-D21E-4F38-82AD-F405E07AE62E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
