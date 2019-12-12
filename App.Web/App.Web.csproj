@@ -41,6 +41,7 @@
     <ProjectReference Include="..\App.Loans\App.Loans.csproj" />
     <ProjectReference Include="..\App.Stocks\App.Stocks.csproj" />
     <ProjectReference Include="..\App.TestModule\App.Example.csproj" />
+    <ProjectReference Include="..\App.Users\App.Users.csproj" />
   </ItemGroup>
 
 </Project>
