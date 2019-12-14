@@ -1,0 +1,5 @@
+{
+  "EntityNotFoundException": "Objekt wurde nicht gefunden",
+  "ArgumentException": "Anforderung fehlgeschlagene Validierung",
+  "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
+}

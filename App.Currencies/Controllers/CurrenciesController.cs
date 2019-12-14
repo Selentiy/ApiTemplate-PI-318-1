@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.Currencies.Filters;
+using App.Currencies.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace App.Currencies.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/currencies")]
     [ApiController]
+    [TypeFilter(typeof(CurrenciesExceptionFilter), Arguments = new object[] { nameof(CurrenciesController)})]
     public class CurrenciesController : ControllerBase
     {
         private readonly ILogger<CurrenciesController> _logger;
@@ -21,33 +24,22 @@ namespace App.Currencies.Controllers
             _currencyManager = currencyManager;
         }
 
-        [Route("{id}")]
-        [HttpGet]
-        public ActionResult<string> GetCurrencyCode(int id)
-        {
-            var serviceCallResult = _currencyManager.GetCurrencyCode(id);
-            if (serviceCallResult == null)
-                return NotFound();
-            return serviceCallResult;
-        }
-
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetCurrencyCodes()
         {
-            var serviceCallResult = _currencyManager.GetCurrencyCodes()?.ToList();
+            _logger.LogInformation("call GetCurrencyCodes method");
+            var serviceCallResult = _currencyManager.GetCurrencyCodes().ToList();
             return serviceCallResult;
         }
 
-        [Route("{code}/{date}")]
-        [HttpGet]
+        [HttpGet("{code}/{date}")]
         public ActionResult<IEnumerable<KeyValuePair<string, decimal>>> GetRate(string code, DateTime date)
         {
+            _logger.LogInformation("call GetRate method with code {code} and date {date}", code, date.ToString("yyyy-MM-dd"));
             if (String.IsNullOrEmpty(code))
                 return BadRequest();
             var serviceCallResult = _currencyManager.GetExchangeRate(code.ToUpper(), date)
-                ?.ToDictionary(x => x.Key, x => x.Value);
-            if (serviceCallResult == null || serviceCallResult.Count == 0)
-                return NotFound();
+                .ToDictionary(x => x.Key, x => x.Value);
             return serviceCallResult;
         }
     }

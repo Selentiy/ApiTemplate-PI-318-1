@@ -1,0 +1,6 @@
+{
+    "ResourceNotFound": "Resource was not found",
+    "PrivateCompany": "The company is private",
+	"InvalidParam": "The parameter has incorrect format!",
+    "Unhandeled": "Unhandled exception occurred !"
+}
