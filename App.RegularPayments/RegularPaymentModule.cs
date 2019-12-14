@@ -38,14 +38,14 @@ namespace App.RegularPayments
             {
                 context.RegularPayments.AddRange(new[]
                 {
-                    new RegularPayment {   //PaymentID = 0,
+                    new RegularPayment {  
                                            Payer = "1111-2222-3333-4444",
                                            Recipient = "5555-6666-7777-8888",
                                             Amount = 57.15,
                                             Period = 30,
                                              DateOfLastPay = DateTime.Now
                     },
-                    new RegularPayment { //PaymentID = 1,
+                    new RegularPayment { 
                                          Payer = "7777-8888-3333-4444",
                                            Recipient = "9999-6666-7777-8888",
                                               Amount = 99.99,
