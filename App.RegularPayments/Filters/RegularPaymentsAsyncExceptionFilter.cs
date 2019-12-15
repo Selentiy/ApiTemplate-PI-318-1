@@ -1,4 +1,6 @@
-﻿using App.RegularPayments.Exceptions;
+﻿using App.Configuration;
+using App.RegularPayments.Exceptions;
+using App.RegularPayments.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -7,19 +9,21 @@ using System.Threading.Tasks;
 
 namespace App.RegularPayments.Filters
 {
-    public class RegularPaymentsExceptionFilter : IAsyncExceptionFilter
+    public class RegularPaymentsAsyncExceptionFilter : IAsyncExceptionFilter, ITransientDependency
     {
-        readonly string _context;
-        readonly ILogger<RegularPaymentsExceptionFilter> _logger;
-        public RegularPaymentsExceptionFilter(ILogger<RegularPaymentsExceptionFilter> logger, string context)
+        readonly ILogger<RegularPaymentsAsyncExceptionFilter> _logger;
+        readonly ILocalizationManager _localizationManager;
+        public RegularPaymentsAsyncExceptionFilter(ILogger<RegularPaymentsAsyncExceptionFilter> logger, ILocalizationManager localizationManager)
         {
             _logger = logger;
-            _context = context;
+            _localizationManager = localizationManager;
         }
 
         public async Task OnExceptionAsync(ExceptionContext context)
         {
+            var _context = context.ActionDescriptor.DisplayName;
             _logger.LogError(context.Exception, $"Error occurred in context of {_context}");
+
             switch (context.Exception)
             {
                 case EntityNotFoundException entityNotFound:
@@ -27,14 +31,16 @@ namespace App.RegularPayments.Filters
                         _logger.LogWarning(entityNotFound, $"Method: {entityNotFound.TargetSite}. " +
                             $"Entity Id: {entityNotFound.EntityId}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                        await context.HttpContext.Response.WriteAsync($"Not found: {entityNotFound.Message}");
+                        var errorMessage = _localizationManager.GetResource("EntityNotFoundException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 case EntityNullException entityNull:
                     {
                         _logger.LogWarning(entityNull, $"Method: {entityNull.TargetSite}. ");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        await context.HttpContext.Response.WriteAsync($"Entity is null: {entityNull.Message}");
+                        var errorMessage = _localizationManager.GetResource("EntityIsNullException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 case ArgumentException argumentException:
@@ -42,14 +48,16 @@ namespace App.RegularPayments.Filters
                         _logger.LogWarning(argumentException, $"Method: {argumentException.TargetSite}. " +
                             $"Parameter Name: {argumentException.ParamName}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        await context.HttpContext.Response.WriteAsync($"Invalid operation: {argumentException.Message}");
+                        var errorMessage = _localizationManager.GetResource("InvalidOperationException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 default:
                     {
                         _logger.LogError($"Method: {context.Exception.TargetSite}.");
                         context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        await context.HttpContext.Response.WriteAsync("Unhandled exception!Please, contact support for resolve");
+                        var errorMessage = _localizationManager.GetResource("UnhandledException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
 
                     }

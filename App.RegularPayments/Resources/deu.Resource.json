@@ -1,0 +1,6 @@
+﻿{
+  "EntityNotFoundException": "Entity wurde nicht gefunden",
+  "EntityIsNullException": "Entity ist null",
+  "UnhandledException": "Nicht behandelte Ausnahme aufgetreten!",
+  "InvalidOperationException": "Ungültige Operation"
+}
