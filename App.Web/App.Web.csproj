@@ -35,6 +35,7 @@
     <ProjectReference Include="..\App.Accounts\App.Accounts.csproj" />
     <ProjectReference Include="..\App.Cards\App.Cards.csproj" />
     <ProjectReference Include="..\App.Common\App.Common.csproj" />
+    <ProjectReference Include="..\App.Payments\App.Payments.csproj" />
     <ProjectReference Include="..\App.RegularPayments\App.RegularPayments.csproj" />
     <ProjectReference Include="..\App.News\App.News.csproj" />
     <ProjectReference Include="..\App.Currencies\App.Currencies.csproj" />
