@@ -11,7 +11,7 @@ namespace App.RegularPayments.Controllers
 {
     [Route("api/regularpayment/")]
     [ApiController]
-    [TypeFilter(typeof(RegularPaymentsExceptionFilter), Arguments = new object[] { nameof(RegularPaymentController) })]
+    [ServiceFilter(typeof(RegularPaymentsAsyncExceptionFilter))]
     public class RegularPaymentController : ControllerBase  
     {
         readonly IPaymentsManager _paymentsManager;
