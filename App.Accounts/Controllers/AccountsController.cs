@@ -1,30 +1,32 @@
-﻿using App.Models.Accounts;
+﻿using App.Accounts.Exceptions;
+using App.Accounts.Filters;
+using App.Models.Accounts;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace App.Accounts.Controllers
 {
     [Route("api/accounts/")]
     [ApiController]
+    [TypeFilter(typeof(AccountsExceptionFilter), Arguments = new object[] { nameof(AccountsController) })]
     public class AccountsController : Controller
     {
         readonly IAccountManager _accountManager;
+        readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(IAccountManager accountManager)
+        public AccountsController(IAccountManager accountManager, ILogger<AccountsController> logger)
         {
             _accountManager = accountManager;
+            _logger = logger;
         }
 
         [HttpGet("all")]
         public ActionResult<IEnumerable<Account>> GetAllAccounts()
         {
-            var accounts = _accountManager.GetAccounts();
+            _logger.LogInformation($"Call GetAllAccounts action method.");
 
-            if (accounts.Count() == 0)
-                return NoContent();
+            var accounts = _accountManager.GetAccounts();
 
             return Ok(accounts);
         }
@@ -32,10 +34,14 @@ namespace App.Accounts.Controllers
         [HttpGet("{countryCode}/{checkDigits}/{bankCode}/{accountNumber}")]
         public ActionResult<Account> GetAccount(string countryCode, string checkDigits, string bankCode, string accountNumber)
         {
+            _logger.LogInformation($"Call GetAllAccounts action method with parameters: " +
+                $"Country Code {countryCode}, Check Digits {checkDigits}, " +
+                $"Bank Code {bankCode}, Account Number {accountNumber}.");
+
             var account = _accountManager.GetAccount(countryCode, checkDigits, bankCode, accountNumber);
 
             if (account == null)
-                return NotFound();
+                throw new ArticleNotFoundException(countryCode, checkDigits, bankCode, accountNumber);
 
             return Ok(account);
         }
@@ -43,10 +49,8 @@ namespace App.Accounts.Controllers
         [HttpPut("block/{id}")]
         public ActionResult BlockAccount(int id)
         {
-            bool result = _accountManager.BlockAccount(id);
-
-            if (!result)
-                return BadRequest();
+            _logger.LogInformation($"Call BlockAccount action method.");
+            _accountManager.BlockAccount(id);
 
             return Ok();
         }
@@ -54,10 +58,8 @@ namespace App.Accounts.Controllers
         [HttpPut("unblock/{id}")]
         public ActionResult UnblockAccount(int id)
         {
-            bool result = _accountManager.UnblockAccount(id);
-
-            if (!result)
-                return BadRequest();
+            _logger.LogInformation($"Call UnblockAccount action method.");
+            _accountManager.UnblockAccount(id);
 
             return Ok();
         }

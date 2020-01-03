@@ -62,7 +62,7 @@ namespace App.Accounts.Repositories
                     new Account()
                     {
                         Id = 4,
-                        AccountNumber = "",
+                        AccountNumber = "0000001111112342342",
                         BankCode = "380990",
                         CheckDigits = "23",
                         CountryCode = "UK",
