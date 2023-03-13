@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.Loans.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using App.Loans.Localization;
 
 namespace App.Loans.Filters
 {
@@ -12,10 +13,13 @@ namespace App.Loans.Filters
     {
         readonly string _context;
         readonly ILogger<LoansExceptionsFilter> _logger;
-        public LoansExceptionsFilter(ILogger<LoansExceptionsFilter> logger, string context)
+        readonly ILocalizationManager _localizationManager;
+
+        public LoansExceptionsFilter(ILogger<LoansExceptionsFilter> logger, string context, ILocalizationManager localizationManager)
         {
             _logger = logger;
             _context = context;
+            _localizationManager = localizationManager;
         }
 
         public async Task OnExceptionAsync(ExceptionContext context)
@@ -26,20 +30,23 @@ namespace App.Loans.Filters
                 case LoanWasClosedException LoanWasClosed:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.HttpContext.Response.WriteAsync($"Loan was closed! Id {LoanWasClosed.Id}");
+                        var errorMessage = _localizationManager.GetResource("Loan was closed");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 case EntityNotFoundException entityNotFound:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        await context.HttpContext.Response.WriteAsync($"Not Found: {entityNotFound.TypeOfEntity.AssemblyQualifiedName}");
+                        var errorMessage = _localizationManager.GetResource("ResourceNotFound");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
                 default:
                     {
                         _logger.LogError($"Method: {context.Exception.TargetSite}.");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        await context.HttpContext.Response.WriteAsync("Unhandled exception ! Please, contact support for resolve");
+                        var errorMessage = _localizationManager.GetResource("UnhandeledException");
+                        await context.HttpContext.Response.WriteAsync(errorMessage);
                         break;
                     }
             }

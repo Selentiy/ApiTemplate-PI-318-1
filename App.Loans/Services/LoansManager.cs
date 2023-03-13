@@ -24,11 +24,6 @@ namespace App.Loans
             return _repository.GetLoans();
         }
 
-        public IEnumerable<string> GetValuesInStringArray()
-        {
-            return _repository.GetValues();
-        }
-
         public string AmountOfPaymentsLeft(int Id)
         {
             var GetLoan = _repository.Get(Id);

@@ -1,0 +1,5 @@
+{
+  "ResourceNotFound": "Ressource wurde nicht gefunden",
+  "Loan was closed": "Darlehen wurde geschlossen",
+  "UnhandeledException": "Eine nicht behandelte Ausnahme ist aufgetreten!"
+}
